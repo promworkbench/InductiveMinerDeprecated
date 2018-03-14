@@ -1,4 +1,4 @@
-<project name="InductiveMiner" default="Compile Sources" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="InductiveMinerDeprecated" default="Compile Sources" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
 	<!-- set global properties for this build -->
 	<property environment="env" />
 	<property name="src" location="src" />
@@ -8,7 +8,7 @@
 	<property name="dist" location="dist" />
 	<property name="release" location="latestrelease" />
 	<property name="version" value="${major_minor}.${env.BUILD_NUMBER}" />
-	<property name="project" value="InductiveMiner" />
+	<property name="project" value="InductiveMinerDeprecated" />
 
 	<!-- Set the os to win32, win64, lin32, lin64, mac, or all -->
 	<property name="os" value="all" />
@@ -18,7 +18,7 @@
 
 	<property name="author" value="SJJ Leemans" />
 	<property name="organization" value="Eindhoven University of Technology" />
-	<property name="description" value="Discovers process models from event logs recursively" />
+	<property name="description" value="Discovers process models from event logs recursively, deprecated" />
 	<property name="license" value="L-GPL" />
 	<property name="logo" value="http://leemans.ch/figures/logoInductiveMiner.png" />
 
