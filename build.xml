@@ -17,7 +17,7 @@
 	<property name="ivy.cache.dir" value="/var/lib/hudson/.ivy2/cache/${env.EXECUTOR_NUMBER}" />
 
 	<property name="author" value="SJJ Leemans" />
-	<property name="organization" value="Eindhoven University of Technology" />
+	<property name="organization" value="Queensland University of Technology" />
 	<property name="description" value="Discovers process models from event logs recursively, deprecated" />
 	<property name="license" value="L-GPL" />
 	<property name="logo" value="http://leemans.ch/figures/logoInductiveMiner.png" />
