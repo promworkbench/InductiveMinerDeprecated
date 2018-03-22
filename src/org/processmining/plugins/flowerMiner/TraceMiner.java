@@ -13,8 +13,10 @@ import org.processmining.framework.plugin.PluginContext;
 import org.processmining.framework.plugin.annotations.Plugin;
 import org.processmining.framework.plugin.annotations.PluginLevel;
 import org.processmining.framework.plugin.annotations.PluginVariant;
-import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTree;
+import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeAb;
+import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeAb.NodeType;
 import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTree2processTree;
+import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeImpl;
 import org.processmining.plugins.InductiveMiner.mining.MiningParameters;
 import org.processmining.plugins.InductiveMiner.plugins.dialogs.IMMiningDialog;
 import org.processmining.processtree.ProcessTree;
@@ -25,7 +27,8 @@ import gnu.trove.map.TObjectIntMap;
 import gnu.trove.set.hash.TCustomHashSet;
 import gnu.trove.strategy.HashingStrategy;
 
-@Plugin(name = "Mine Process tree using Trace Miner", returnLabels = { "Process Tree" }, returnTypes = { ProcessTree.class }, parameterLabels = { "Log" }, userAccessible = true, level = PluginLevel.Regular)
+@Plugin(name = "Mine Process tree using Trace Miner", returnLabels = { "Process Tree" }, returnTypes = {
+		ProcessTree.class }, parameterLabels = { "Log" }, userAccessible = true, level = PluginLevel.Regular)
 public class TraceMiner {
 
 	@UITopiaVariant(affiliation = IMMiningDialog.affiliation, author = IMMiningDialog.author, email = IMMiningDialog.email)
@@ -34,13 +37,13 @@ public class TraceMiner {
 		return EfficientTree2processTree.convert(mineTraceModel(log, MiningParameters.getDefaultClassifier()));
 	}
 
-	public static EfficientTree mineTraceModel(XLog log, XEventClassifier classifier) {
+	public static EfficientTreeAb mineTraceModel(XLog log, XEventClassifier classifier) {
 		//initialise the tree
-		final TObjectIntMap<String> activity2int = EfficientTree.getEmptyActivity2int();
+		final TObjectIntMap<String> activity2int = EfficientTreeImpl.getEmptyActivity2int();
 		final ArrayList<String> int2activity = new ArrayList<>();
 		final TIntArrayList tree = new TIntArrayList();
 		if (!log.isEmpty()) {
-			tree.add(EfficientTree.xor);
+			tree.add(NodeType.xor.code);
 
 			Set<int[]> set = new TCustomHashSet<int[]>(new HashingStrategy<int[]>() {
 
@@ -76,9 +79,9 @@ public class TraceMiner {
 
 					//start the trace
 					if (trace.isEmpty()) {
-						tree.add(EfficientTree.tau);
+						tree.add(NodeType.tau.code);
 					} else {
-						tree.add(EfficientTree.sequence - trace.size() * EfficientTree.childrenFactor);
+						tree.add(NodeType.sequence.code - trace.size() * EfficientTreeImpl.childrenFactor);
 						for (XEvent event : trace) {
 							String activity = classifier.getClassIdentity(event);
 							int actIndex = activity2int.putIfAbsent(activity, int2activity.size());
@@ -90,13 +93,13 @@ public class TraceMiner {
 							}
 						}
 					}
-					tree.set(0, tree.get(0) - EfficientTree.childrenFactor);
+					tree.set(0, tree.get(0) - EfficientTreeImpl.childrenFactor);
 				}
 			}
 		} else {
-			tree.add(EfficientTree.tau);
+			tree.add(NodeType.tau.code);
 		}
-		
+
 		//construct the tree
 		String[] int2activity2 = new String[activity2int.size()];
 		for (TObjectIntIterator<String> it = activity2int.iterator(); it.hasNext();) {
@@ -104,6 +107,6 @@ public class TraceMiner {
 			int2activity2[it.value()] = it.key();
 		}
 
-		return new EfficientTree(tree.toArray(), activity2int, int2activity2);
+		return new EfficientTreeImpl(tree.toArray(), activity2int, int2activity2);
 	}
 }

@@ -8,7 +8,7 @@ import org.processmining.plugins.InductiveMiner.Triple;
 import org.processmining.plugins.InductiveMiner.efficienttree.ProcessTreeNodiser.NodeType;
 
 public class ProcessTreeParser {
-	public static Triple<EfficientTree, Integer, String> parse(String string, int spacesPerTab) throws IOException {
+	public static Triple<EfficientTreeAb, Integer, String> parse(String string, int spacesPerTab) throws IOException {
 		ProcessTreeNodiser nodiser = new ProcessTreeNodiser(string, spacesPerTab);
 		return parseNode(nodiser);
 	}
@@ -23,7 +23,7 @@ public class ProcessTreeParser {
 	 *         an error message.
 	 * @throws IOException
 	 */
-	public static Triple<EfficientTree, Integer, String> parseNode(ProcessTreeNodiser nodiser) throws IOException {
+	public static Triple<EfficientTreeAb, Integer, String> parseNode(ProcessTreeNodiser nodiser) throws IOException {
 		if (!nodiser.nextNode()) {
 			// we ran out of nodes, this means that something went wrong or the
 			// string is empty
@@ -42,7 +42,7 @@ public class ProcessTreeParser {
 				break;
 		}
 
-		List<EfficientTree> children = new ArrayList<>();
+		List<EfficientTreeAb> children = new ArrayList<>();
 
 		// parse children
 		{
@@ -55,7 +55,7 @@ public class ProcessTreeParser {
 			}
 
 			while (hasNextChild && childIndentation > indentation) {
-				Triple<EfficientTree, Integer, String> childResult = parseNode(nodiser);
+				Triple<EfficientTreeAb, Integer, String> childResult = parseNode(nodiser);
 				if (childResult.getA() == null) {
 					return childResult;
 				}

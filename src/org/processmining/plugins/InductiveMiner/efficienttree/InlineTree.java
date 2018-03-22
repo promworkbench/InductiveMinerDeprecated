@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeAb.NodeType;
+
 import gnu.trove.map.TObjectIntMap;
 
 public class InlineTree {
@@ -14,33 +16,33 @@ public class InlineTree {
 	 * @param label
 	 * @return a leaf with the given label
 	 */
-	public static EfficientTree leaf(String label) {
+	public static EfficientTreeAb leaf(String label) {
 		//construct the tree
 		int[] tree = new int[1];
 		tree[0] = 0;
 
 		//construct the activity -> int map
-		TObjectIntMap<String> activity2int = EfficientTree.getEmptyActivity2int();
+		TObjectIntMap<String> activity2int = EfficientTreeImpl.getEmptyActivity2int();
 		activity2int.put(label, 0);
 
 		//construct the int -> activity map
 		String[] int2activity = new String[] { label };
 
-		return new EfficientTree(tree, activity2int, int2activity);
+		return new EfficientTreeImpl(tree, activity2int, int2activity);
 	}
 
-	public static EfficientTree tau() {
+	public static EfficientTreeAb tau() {
 		//construct the tree
 		int[] tree = new int[1];
-		tree[0] = EfficientTree.tau;
+		tree[0] = NodeType.tau.code;
 
 		//construct the activity -> int map
-		TObjectIntMap<String> activity2int = EfficientTree.getEmptyActivity2int();
+		TObjectIntMap<String> activity2int = EfficientTreeImpl.getEmptyActivity2int();
 
 		//construct the int -> activity map
 		String[] int2activity = new String[0];
 
-		return new EfficientTree(tree, activity2int, int2activity);
+		return new EfficientTreeImpl(tree, activity2int, int2activity);
 	}
 
 	/**
@@ -50,8 +52,8 @@ public class InlineTree {
 	 * @param child1
 	 * @param children
 	 */
-	public static EfficientTree xor(EfficientTree child1, EfficientTree... children) {
-		return combineTrees(EfficientTree.xor, child1, children);
+	public static EfficientTreeAb xor(EfficientTreeAb child1, EfficientTreeAb... children) {
+		return combineTrees(NodeType.xor, child1, children);
 	}
 
 	/**
@@ -60,8 +62,8 @@ public class InlineTree {
 	 * 
 	 * @param children
 	 */
-	public static EfficientTree xor(Collection<EfficientTree> children) {
-		return combineTrees(EfficientTree.xor, children);
+	public static EfficientTreeAb xor(Collection<EfficientTreeAb> children) {
+		return combineTrees(NodeType.xor, children);
 	}
 
 	/**
@@ -71,8 +73,8 @@ public class InlineTree {
 	 * @param child1
 	 * @param children
 	 */
-	public static EfficientTree sequence(EfficientTree child1, EfficientTree... children) {
-		return combineTrees(EfficientTree.sequence, child1, children);
+	public static EfficientTreeAb sequence(EfficientTreeAb child1, EfficientTreeAb... children) {
+		return combineTrees(NodeType.sequence, child1, children);
 	}
 
 	/**
@@ -81,8 +83,8 @@ public class InlineTree {
 	 * 
 	 * @param children
 	 */
-	public static EfficientTree sequence(List<EfficientTree> children) {
-		return combineTrees(EfficientTree.sequence, children);
+	public static EfficientTreeAb sequence(List<EfficientTreeAb> children) {
+		return combineTrees(NodeType.sequence, children);
 	}
 
 	/**
@@ -92,8 +94,8 @@ public class InlineTree {
 	 * @param child1
 	 * @param children
 	 */
-	public static EfficientTree concurrent(EfficientTree child1, EfficientTree... children) {
-		return combineTrees(EfficientTree.concurrent, child1, children);
+	public static EfficientTreeAb concurrent(EfficientTreeAb child1, EfficientTreeAb... children) {
+		return combineTrees(NodeType.concurrent, child1, children);
 	}
 
 	/**
@@ -102,8 +104,8 @@ public class InlineTree {
 	 * 
 	 * @param children
 	 */
-	public static EfficientTree concurrent(Collection<EfficientTree> children) {
-		return combineTrees(EfficientTree.concurrent, children);
+	public static EfficientTreeAb concurrent(Collection<EfficientTreeAb> children) {
+		return combineTrees(NodeType.concurrent, children);
 	}
 
 	/**
@@ -113,11 +115,11 @@ public class InlineTree {
 	 * @param child1
 	 * @param children
 	 */
-	public static EfficientTree loop(EfficientTree body, EfficientTree redo, EfficientTree exit) {
-		EfficientTree[] children = new EfficientTree[2];
+	public static EfficientTreeAb loop(EfficientTreeAb body, EfficientTreeAb redo, EfficientTreeAb exit) {
+		EfficientTreeAb[] children = new EfficientTreeImpl[2];
 		children[0] = redo;
 		children[1] = exit;
-		return combineTrees(EfficientTree.loop, body, children);
+		return combineTrees(NodeType.loop, body, children);
 	}
 
 	/**
@@ -126,9 +128,9 @@ public class InlineTree {
 	 * 
 	 * @param children
 	 */
-	public static EfficientTree loop(List<EfficientTree> children) {
+	public static EfficientTreeAb loop(List<EfficientTreeAb> children) {
 		assert (children.size() == 3);
-		return combineTrees(EfficientTree.loop, children);
+		return combineTrees(NodeType.loop, children);
 	}
 
 	/**
@@ -138,8 +140,8 @@ public class InlineTree {
 	 * @param child1
 	 * @param children
 	 */
-	public static EfficientTree interleaved(EfficientTree child1, EfficientTree... children) {
-		return combineTrees(EfficientTree.interleaved, child1, children);
+	public static EfficientTreeAb interleaved(EfficientTreeAb child1, EfficientTreeAb... children) {
+		return combineTrees(NodeType.interleaved, child1, children);
 	}
 
 	/**
@@ -148,8 +150,8 @@ public class InlineTree {
 	 * 
 	 * @param children
 	 */
-	public static EfficientTree interleaved(List<EfficientTree> children) {
-		return combineTrees(EfficientTree.interleaved, children);
+	public static EfficientTreeAb interleaved(List<EfficientTreeAb> children) {
+		return combineTrees(NodeType.interleaved, children);
 	}
 
 	/**
@@ -159,8 +161,8 @@ public class InlineTree {
 	 * @param child1
 	 * @param children
 	 */
-	public static EfficientTree or(EfficientTree child1, EfficientTree... children) {
-		return combineTrees(EfficientTree.or, child1, children);
+	public static EfficientTreeAb or(EfficientTreeAb child1, EfficientTreeAb... children) {
+		return combineTrees(NodeType.or, child1, children);
 	}
 
 	/**
@@ -169,19 +171,98 @@ public class InlineTree {
 	 * 
 	 * @param children
 	 */
-	public static EfficientTree or(List<EfficientTree> children) {
-		return combineTrees(EfficientTree.or, children);
+	public static EfficientTreeAb or(List<EfficientTreeAb> children) {
+		return combineTrees(NodeType.or, children);
 	}
 
-	private static EfficientTree combineTrees(int operator, Collection<EfficientTree> children) {
+	private static EfficientTreeAb combineTrees(NodeType operator, Collection<EfficientTreeAb> children) {
 		assert (children.size() >= 1);
-		Iterator<EfficientTree> it = children.iterator();
-		EfficientTree first = it.next();
-		EfficientTree[] childrenArray = new EfficientTree[children.size() - 1];
+		Iterator<EfficientTreeAb> it = children.iterator();
+		EfficientTreeAb first = it.next();
+		EfficientTreeAb[] childrenArray = new EfficientTreeAb[children.size() - 1];
 		for (int i = 0; i < children.size() - 1; i++) {
 			childrenArray[i] = it.next();
 		}
 		return combineTrees(operator, first, childrenArray);
+	}
+
+	private static EfficientTreeAb combineTrees(NodeType operator, EfficientTreeAb child1, EfficientTreeAb... children) {
+		if ((child1 instanceof EfficientTreeImpl)) {
+			for (EfficientTreeAb child : children) {
+				if (!(child instanceof EfficientTreeImpl)) {
+					return combineTreesSlow(operator, child1, children);
+				}
+			}
+
+			return combineTreesFast(operator, (EfficientTreeImpl) child1, (EfficientTreeImpl[]) children);
+		}
+
+		return combineTreesSlow(operator, child1, children);
+	}
+
+	private static EfficientTreeAb combineTreesSlow(NodeType operator, EfficientTreeAb child1, EfficientTreeAb... children) {
+		int size = child1.traverse(0);
+		for (EfficientTreeAb child : children) {
+			size += child.traverse(0);
+		}
+		int[] newTree = new int[size + 1];
+
+		//set the root operator
+		newTree[0] = operator.code - EfficientTreeImpl.childrenFactor * (children.length + 1);
+
+		//set-up the activity data structures
+		TObjectIntMap<String> newActivity2int = EfficientTreeImpl.getEmptyActivity2int();
+		String[] newInt2activity;
+
+		//copy the first child
+		int nextChildIndex = 1;
+		{
+			int size1 = child1.traverse(0);
+			for (int node = 0; node < size1; node++) {
+				newTree[nextChildIndex] = child1.getNodeType(node).code
+						- EfficientTreeImpl.childrenFactor * child1.getNumberOfChildren(node);
+				nextChildIndex++;
+			}
+			newActivity2int.putAll(child1.getActivity2int());
+			newInt2activity = child1.getInt2activity().clone();
+		}
+
+		//copy the other children
+		for (EfficientTreeAb child : children) {
+			int sizeChild = child.traverse(0);
+
+			//copy the tree structure
+			int size1 = child.traverse(0);
+			for (int node = 0; node < size1; node++) {
+				newTree[nextChildIndex + node] = child.getNodeType(node).code
+						- EfficientTreeImpl.childrenFactor * child.getNumberOfChildren(node);
+			}
+
+			//make an activity mapping
+			int[] activity2new = new int[child.getInt2activity().length];
+			for (int i = 0; i < child.getInt2activity().length; i++) {
+				String activity = child.getInt2activity()[i];
+				if (newActivity2int.containsKey(activity)) {
+					activity2new[i] = newActivity2int.get(activity);
+				} else {
+					activity2new[i] = newInt2activity.length;
+					newActivity2int.put(activity, newInt2activity.length);
+					newInt2activity = Arrays.copyOf(newInt2activity, newInt2activity.length + 1);
+					newInt2activity[newInt2activity.length - 1] = activity;
+				}
+			}
+
+			//walk over the copied array and replace activity integer codes
+			for (int i = nextChildIndex; i < nextChildIndex + sizeChild; i++) {
+				if (newTree[i] >= 0) {
+					newTree[i] = activity2new[newTree[i]];
+				}
+			}
+
+			nextChildIndex += sizeChild;
+		}
+
+		return new EfficientTreeImpl(newTree, newActivity2int, newInt2activity);
 	}
 
 	/**
@@ -192,26 +273,28 @@ public class InlineTree {
 	 * @param children
 	 * @return
 	 */
-	private static EfficientTree combineTrees(int operator, EfficientTree child1, EfficientTree... children) {
+	private static EfficientTreeAb combineTreesFast(NodeType operator, EfficientTreeImpl child1,
+			EfficientTreeImpl... children) {
 		//initialise the tree array
 		int[] newTree;
 		{
 			int size = child1.traverse(0);
-			for (EfficientTree child : children) {
+			for (EfficientTreeAb child : children) {
 				size += child.traverse(0);
 			}
 			newTree = new int[size + 1];
 		}
 
 		/*
-		 * Before: [child1] [child2] [child..] After: seq child1 child2 child..
+		 * Before: [child1] [child2] [child..] After: operator child1 child2
+		 * child..
 		 */
 
 		//set the root operator
-		newTree[0] = operator - EfficientTree.childrenFactor * (children.length + 1);
+		newTree[0] = operator.code - EfficientTreeImpl.childrenFactor * (children.length + 1);
 
 		//set-up the activity data structures
-		TObjectIntMap<String> newActivity2int = EfficientTree.getEmptyActivity2int();
+		TObjectIntMap<String> newActivity2int = EfficientTreeImpl.getEmptyActivity2int();
 		String[] newInt2activity;
 
 		//copy the first child
@@ -225,7 +308,7 @@ public class InlineTree {
 		}
 
 		//copy the other children
-		for (EfficientTree child : children) {
+		for (EfficientTreeImpl child : children) {
 			int size = child.traverse(0);
 
 			//copy the tree structure
@@ -255,7 +338,7 @@ public class InlineTree {
 			nextChildIndex += size;
 		}
 
-		return new EfficientTree(newTree, newActivity2int, newInt2activity);
+		return new EfficientTreeImpl(newTree, newActivity2int, newInt2activity);
 	}
 
 }

@@ -1,14 +1,16 @@
 package org.processmining.plugins.InductiveMiner.efficienttree.reductionrules;
 
-import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTree;
+import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeAb;
+import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeAb.NodeType;
 import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeMetrics;
 import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeReductionRule;
+import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeUtils;
 import org.processmining.plugins.InductiveMiner.efficienttree.UnknownTreeNodeException;
 
 @Deprecated
 public class LoopTauATau2flower implements EfficientTreeReductionRule {
 
-	public boolean apply(EfficientTree tree, int loop) throws UnknownTreeNodeException {
+	public boolean apply(EfficientTreeAb tree, int loop) throws UnknownTreeNodeException {
 
 		//look for loop( tau1, A, tau3)
 		if (tree.isLoop(loop)) {
@@ -56,7 +58,7 @@ public class LoopTauATau2flower implements EfficientTreeReductionRule {
 				int j = 0;
 				for (int i = 0; i < tau4; i++) {
 					if (tree.isActivity(i)) {
-						activities[j] = tree.getTree()[i];
+						activities[j] = tree.getActivity(i);
 						j++;
 					}
 				}
@@ -65,16 +67,17 @@ public class LoopTauATau2flower implements EfficientTreeReductionRule {
 
 				//remove every node that will be useless in the future
 				for (int child = tau4 - 1; child > tau2 + countActivities + 1; child--) {
-					tree.getTree()[child] = EfficientTree.tau;
-					tree.removeChild(redo, child);
+					tree.setNodeType(child, NodeType.tau);
+					EfficientTreeUtils.removeChild(tree, redo, child);
 				}
 
 				//set the xor
-				tree.getTree()[redo] = EfficientTree.xor - countActivities * EfficientTree.childrenFactor;
+				tree.setNodeType(redo, NodeType.xor);
+				tree.setNumberOfChildren(redo, countActivities);
 
 				//set the activities
 				for (int i = 0; i < countActivities; i++) {
-					tree.getTree()[redo + i + 1] = activities[i];
+					tree.setNodeActivity(redo + i + 1, activities[i]);
 				}
 
 				//after: loop(tau2, xor( ... ), tau4)

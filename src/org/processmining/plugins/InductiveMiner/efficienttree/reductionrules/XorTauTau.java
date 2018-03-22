@@ -1,13 +1,14 @@
 package org.processmining.plugins.InductiveMiner.efficienttree.reductionrules;
 
-import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTree;
+import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeAb;
 import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeMetrics;
 import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeReductionRule;
+import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeUtils;
 import org.processmining.plugins.InductiveMiner.efficienttree.UnknownTreeNodeException;
 
 public class XorTauTau implements EfficientTreeReductionRule {
 
-	public boolean apply(EfficientTree tree, int node) throws UnknownTreeNodeException {
+	public boolean apply(EfficientTreeAb tree, int node) throws UnknownTreeNodeException {
 		if (tree.isXor(node)) {
 			//count the number of taus
 			boolean tauSeen = false;
@@ -24,7 +25,7 @@ public class XorTauTau implements EfficientTreeReductionRule {
 				if (tree.isTau(child)) {
 					if (tauSeen) {
 						//this is the second tau; remove it
-						tree.removeChild(node, child);
+						EfficientTreeUtils.removeChild(tree, node, child);
 						return true;
 					}
 					tauSeen = true;

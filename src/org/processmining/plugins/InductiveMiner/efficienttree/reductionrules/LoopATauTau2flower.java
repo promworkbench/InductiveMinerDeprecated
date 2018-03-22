@@ -1,13 +1,15 @@
 package org.processmining.plugins.InductiveMiner.efficienttree.reductionrules;
 
-import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTree;
+import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeAb;
+import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeAb.NodeType;
 import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeMetrics;
 import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeReductionRule;
+import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeUtils;
 import org.processmining.plugins.InductiveMiner.efficienttree.UnknownTreeNodeException;
 
 public class LoopATauTau2flower implements EfficientTreeReductionRule {
 
-	public boolean apply(EfficientTree tree, int loop) throws UnknownTreeNodeException {
+	public boolean apply(EfficientTreeAb tree, int loop) throws UnknownTreeNodeException {
 
 		//look for loop( A, tau3, tau4)
 		if (tree.isLoop(loop)) {
@@ -42,7 +44,7 @@ public class LoopATauTau2flower implements EfficientTreeReductionRule {
 				int j = 0;
 				for (int i = body; i < tau3; i++) {
 					if (tree.isActivity(i)) {
-						activities[j] = tree.getTree()[i];
+						activities[j] = tree.getActivity(i);
 						j++;
 					}
 				}
@@ -63,16 +65,17 @@ public class LoopATauTau2flower implements EfficientTreeReductionRule {
 
 					//remove every node that will be useless in the future
 					for (int child = tau3 - 1; child > loop + countActivities + 1; child--) {
-						tree.getTree()[child] = EfficientTree.tau;
-						tree.removeChild(body, child);
+						tree.setNodeType(child, NodeType.tau);
+						EfficientTreeUtils.removeChild(tree, body, child);
 					}
 
 					//set the xor
-					tree.getTree()[body] = EfficientTree.xor - countActivities * EfficientTree.childrenFactor;
+					tree.setNodeType(body, NodeType.xor);
+					tree.setNumberOfChildren(body, countActivities);
 
 					//set the activities
 					for (int i = 0; i < countActivities; i++) {
-						tree.getTree()[body + i + 1] = activities[i];
+						tree.setNodeActivity(body + i + 1, activities[i]);
 					}
 
 					//after: loop(xor( ... ), tau3, tau4)
@@ -81,19 +84,20 @@ public class LoopATauTau2flower implements EfficientTreeReductionRule {
 
 					//remove every node that will be useless in the future
 					for (int child = tau3; child > loop + countActivities + 2; child--) {
-						tree.getTree()[child] = EfficientTree.tau;
-						tree.removeChild(body, child);
+						tree.setNodeType(child, NodeType.tau);
+						EfficientTreeUtils.removeChild(tree, body, child);
 					}
 
 					//set the body tau
-					tree.getTree()[body] = EfficientTree.tau;
+					tree.setNodeType(body, NodeType.tau);
 
 					//set the xor
-					tree.getTree()[body + 1] = EfficientTree.xor - countActivities * EfficientTree.childrenFactor;
+					tree.setNodeType(body + 1, NodeType.xor);
+					tree.setNumberOfChildren(body + 1, countActivities);
 
 					//set the activities
 					for (int i = 0; i < countActivities; i++) {
-						tree.getTree()[body + 2 + i] = activities[i];
+						tree.setNodeActivity(body + 2 + i, activities[i]);
 					}
 
 					//after: loop(tau, xor( ... ), tau4)

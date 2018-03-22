@@ -8,6 +8,9 @@ import org.processmining.framework.plugin.annotations.PluginVariant;
 import org.processmining.plugins.InductiveMiner.dfgOnly.Dfg;
 import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTree;
 import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTree2processTree;
+import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeAb;
+import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeAb.NodeType;
+import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeImpl;
 import org.processmining.plugins.InductiveMiner.plugins.dialogs.IMMiningDialog;
 import org.processmining.processtree.ProcessTree;
 
@@ -21,11 +24,11 @@ public class FlowerMinerDfg {
 		return EfficientTree2processTree.convert(mine(dfg.getActivities()));
 	}
 
-	public static EfficientTree mine(XEventClass[] vertices) {
+	public static EfficientTreeAb mine(XEventClass[] vertices) {
 
 		//construct activity structures
 		String[] int2activity = new String[vertices.length];
-		TObjectIntMap<String> activity2int = EfficientTree.getEmptyActivity2int();
+		TObjectIntMap<String> activity2int = EfficientTreeImpl.getEmptyActivity2int();
 		for (int i = 0; i < vertices.length; i++) {
 			int2activity[i] = vertices[i].getId();
 			activity2int.put(vertices[i].getId(), i);
@@ -33,23 +36,23 @@ public class FlowerMinerDfg {
 
 		//construct the tree
 		int[] tree = new int[int2activity.length + 4];
-		tree[0] = EfficientTree.loop - 3 * EfficientTree.childrenFactor;
+		tree[0] = NodeType.loop.code - 3 * EfficientTreeImpl.childrenFactor;
 		assert(tree[0] < 0);
-		tree[1] = EfficientTree.xor - int2activity.length * EfficientTree.childrenFactor;
+		tree[1] = NodeType.xor.code - int2activity.length * EfficientTreeImpl.childrenFactor;
 		assert(tree[1] < 0);
 		for (int i = 0; i < int2activity.length; i++) {
 			tree[2 + i] = i;
 		}
-		tree[2 + int2activity.length] = EfficientTree.tau;
-		tree[3 + int2activity.length] = EfficientTree.tau;
+		tree[2 + int2activity.length] = NodeType.tau.code;
+		tree[3 + int2activity.length] = NodeType.tau.code;
 		
-		return new EfficientTree(tree, activity2int, int2activity);
+		return new EfficientTreeImpl(tree, activity2int, int2activity);
 	}
 	
 	public static EfficientTree mine(String[] activities) {
 		//construct activity structures
 		String[] int2activity = new String[activities.length];
-		TObjectIntMap<String> activity2int = EfficientTree.getEmptyActivity2int();
+		TObjectIntMap<String> activity2int = EfficientTreeImpl.getEmptyActivity2int();
 		for (int i = 0; i < activities.length; i++) {
 			int2activity[i] = activities[i];
 			activity2int.put(activities[i], i);
@@ -57,15 +60,15 @@ public class FlowerMinerDfg {
 
 		//construct the tree
 		int[] tree = new int[int2activity.length + 4];
-		tree[0] = EfficientTree.loop - 3 * EfficientTree.childrenFactor;
+		tree[0] = NodeType.loop.code - 3 * EfficientTreeImpl.childrenFactor;
 		assert(tree[0] < 0);
-		tree[1] = EfficientTree.xor - int2activity.length * EfficientTree.childrenFactor;
+		tree[1] = NodeType.xor.code - int2activity.length * EfficientTreeImpl.childrenFactor;
 		assert(tree[1] < 0);
 		for (int i = 0; i < int2activity.length; i++) {
 			tree[2 + i] = i;
 		}
-		tree[2 + int2activity.length] = EfficientTree.tau;
-		tree[3 + int2activity.length] = EfficientTree.tau;
+		tree[2 + int2activity.length] = NodeType.tau.code;
+		tree[3 + int2activity.length] = NodeType.tau.code;
 		
 		return new EfficientTree(tree, activity2int, int2activity);
 	}

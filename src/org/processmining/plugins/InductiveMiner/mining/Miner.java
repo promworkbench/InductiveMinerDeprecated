@@ -3,8 +3,11 @@ package org.processmining.plugins.InductiveMiner.mining;
 import java.util.Iterator;
 
 import org.processmining.framework.packages.PackageManager.Canceller;
-import org.processmining.plugins.InductiveMiner.conversion.ReduceTree;
+import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeAb;
+import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTree2processTree;
+import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeReduce;
 import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeReduce.ReductionFailedException;
+import org.processmining.plugins.InductiveMiner.efficienttree.ProcessTree2EfficientTree;
 import org.processmining.plugins.InductiveMiner.efficienttree.UnknownTreeNodeException;
 import org.processmining.plugins.InductiveMiner.mining.baseCases.BaseCaseFinder;
 import org.processmining.plugins.InductiveMiner.mining.cuts.Cut;
@@ -40,7 +43,7 @@ public class Miner {
 		if (parameters.isRepairLifeCycle()) {
 			log = new LifeCycles(parameters.isDebug()).preProcessLog(log);
 		}
-		
+
 		if (parameters.isProcessStartEndComplete()) {
 			log = IMLogStartEndComplete.fromIMLog(log);
 		}
@@ -68,7 +71,10 @@ public class Miner {
 		//reduce the tree
 		if (parameters.getReduceParameters() != null) {
 			try {
-				tree = ReduceTree.reduceTree(tree, parameters.getReduceParameters());
+				//reduce the tree
+				EfficientTreeAb eTree = ProcessTree2EfficientTree.convert(tree);
+				EfficientTreeReduce.reduce(eTree, parameters.getReduceParameters());
+				tree = EfficientTree2processTree.convert(eTree);
 				debug("after reduction " + tree.getRoot(), minerState);
 			} catch (UnknownTreeNodeException | ReductionFailedException e) {
 				e.printStackTrace();

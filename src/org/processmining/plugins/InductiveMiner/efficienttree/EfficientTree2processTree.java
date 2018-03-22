@@ -17,7 +17,7 @@ import org.processmining.processtree.impl.AbstractTask.Manual;
 import org.processmining.processtree.impl.ProcessTreeImpl;
 
 public class EfficientTree2processTree {
-	public static ProcessTree convert(EfficientTree tree) {
+	public static ProcessTree convert(EfficientTreeAb tree) {
 		ProcessTree newTree = new ProcessTreeImpl();
 		newTree.setRoot(convert(tree, 0, newTree));
 		return newTree;
@@ -29,7 +29,7 @@ public class EfficientTree2processTree {
 	 * @param tree
 	 * @return the root of the subtree.
 	 */
-	public static Node replaceNode(Node node, EfficientTree tree) {
+	public static Node replaceNode(Node node, EfficientTreeAb tree) {
 		ProcessTree newTree = node.getProcessTree();
 		Node newNode = convert(tree, 0, newTree);
 		
@@ -40,7 +40,7 @@ public class EfficientTree2processTree {
 		return newNode;
 	}
 
-	public static Node convert(EfficientTree tree, int node, ProcessTree newTree) {
+	public static Node convert(EfficientTreeAb tree, int node, ProcessTree newTree) {
 		if (tree.isTau(node)) {
 			Node newNode = new Automatic("tau");
 			newTree.addNode(newNode);

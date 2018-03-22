@@ -13,10 +13,11 @@ import org.processmining.framework.abstractplugins.AbstractImportPlugin;
 import org.processmining.framework.plugin.PluginContext;
 import org.processmining.framework.plugin.annotations.Plugin;
 import org.processmining.plugins.InductiveMiner.Triple;
-import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTree;
+import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeAb;
+import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeImpl;
 import org.processmining.plugins.InductiveMiner.efficienttree.ProcessTreeParser;
 
-@Plugin(name = "Import an EfficientTree", parameterLabels = { "Filename" }, returnLabels = { "EfficientTree" }, returnTypes = { EfficientTree.class })
+@Plugin(name = "Import an EfficientTree", parameterLabels = { "Filename" }, returnLabels = { "EfficientTree" }, returnTypes = { EfficientTreeImpl.class })
 @UIImportPlugin(description = "EfficientTree", extensions = { "tree" })
 public class EfficientTreeImportPlugin extends AbstractImportPlugin {
 
@@ -25,13 +26,13 @@ public class EfficientTreeImportPlugin extends AbstractImportPlugin {
 		return importFromStream(input);
 	}
 
-	public static EfficientTree importFromStream(InputStream stream) throws Exception {
+	public static EfficientTreeAb importFromStream(InputStream stream) throws Exception {
 		//read the file
 		StringWriter writer = new StringWriter();
 		IOUtils.copy(stream, writer, StandardCharsets.UTF_8);
 		String text = writer.toString();
 
-		Triple<EfficientTree, Integer, String> result = ProcessTreeParser.parse(text, 3);
+		Triple<EfficientTreeAb, Integer, String> result = ProcessTreeParser.parse(text, 3);
 		if (result.getA() == null) {
 			//throw error message
 			throw new Exception(result.getC());
@@ -40,7 +41,7 @@ public class EfficientTreeImportPlugin extends AbstractImportPlugin {
 		}
 	}
 
-	public static EfficientTree importFromFile(File file) throws FileNotFoundException, Exception {
+	public static EfficientTreeAb importFromFile(File file) throws FileNotFoundException, Exception {
 		return importFromStream(new FileInputStream(file));
 	}
 }

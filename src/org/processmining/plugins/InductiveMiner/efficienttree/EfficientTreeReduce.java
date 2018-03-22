@@ -6,19 +6,18 @@ import org.processmining.plugins.InductiveMiner.Pair;
 
 public class EfficientTreeReduce {
 
-	public static void reduce(EfficientTree tree)
-			throws ReductionFailedException, UnknownTreeNodeException {
+	public static void reduce(EfficientTreeAb tree) throws ReductionFailedException, UnknownTreeNodeException {
 		reduce(tree, new EfficientTreeReduceParameters(false, false));
 	}
-	
-	public static void reduce(EfficientTree tree, EfficientTreeReduceParameters reduceParameters)
+
+	public static void reduce(EfficientTreeAb tree, EfficientTreeReduceParameters reduceParameters)
 			throws ReductionFailedException, UnknownTreeNodeException {
 		//filter epsilon subtrees
 		{
 			BitSet map = EfficientTreeMetrics.canOnlyProduceTau(tree);
-			for (int node = tree.getTree().length - 1; node >= 0; node--) {
+			for (int node = tree.getMaxNumberOfNodes() - 1; node >= 0; node--) {
 				if (map.get(node) && tree.isOperator(node)) {
-					tree.replaceNodeWithTau(node);
+					EfficientTreeUtils.replaceNodeWithTau(tree, node);
 				}
 			}
 		}
@@ -29,9 +28,9 @@ public class EfficientTreeReduce {
 			Pair<BitSet, int[]> p = isSuperfluousTau(tree, canProduceTau);
 			BitSet map = p.getA();
 			int[] parents = p.getB();
-			for (int node = tree.getTree().length - 1; node >= 0; node--) {
+			for (int node = tree.getMaxNumberOfNodes() - 1; node >= 0; node--) {
 				if (map.get(node)) {
-					tree.removeChild(parents[node], node);
+					EfficientTreeUtils.removeChild(tree, parents[node], node);
 				}
 			}
 		}
@@ -42,18 +41,18 @@ public class EfficientTreeReduce {
 		while (reduceOne(tree, reduceParameters)) {
 
 		}
-		
-		if (!tree.isConsistent()) {
+
+		if (!EfficientTreeUtils.isConsistent(tree)) {
 			throw new ReductionFailedException();
 		}
 
 	}
 
-	private static boolean reduceOne(EfficientTree tree, EfficientTreeReduceParameters reduceParameters)
-			throws ReductionFailedException, UnknownTreeNodeException {
+	private static boolean reduceOne(EfficientTreeAb tree, EfficientTreeReduceParameters reduceParameters)
+			throws UnknownTreeNodeException {
 		boolean changed = false;
 
-		for (int node = 0; node < tree.getTree().length; node++) {
+		for (int node = 0; node < tree.getMaxNumberOfNodes(); node++) {
 			if (tree.isOperator(node)) {
 				EfficientTreeReductionRule[] rules;
 				if (tree.isXor(node)) {
@@ -74,9 +73,9 @@ public class EfficientTreeReduce {
 
 				for (EfficientTreeReductionRule rule : rules) {
 					changed = changed | rule.apply(tree, node);
-//					if (!tree.isConsistent()) {
-//						throw new ReductionFailedException();
-//					}
+					//					if (!tree.isConsistent()) {
+					//						throw new ReductionFailedException();
+					//					}
 				}
 			}
 		}
@@ -84,10 +83,10 @@ public class EfficientTreeReduce {
 		return changed;
 	}
 
-	public static Pair<BitSet, int[]> isSuperfluousTau(EfficientTree tree, BitSet canProduceTau) {
-		BitSet superfluous = new BitSet(tree.getTree().length);
-		int[] parents = new int[tree.getTree().length];
-		for (int node = tree.getTree().length - 1; node >= 0; node--) {
+	public static Pair<BitSet, int[]> isSuperfluousTau(EfficientTreeAb tree, BitSet canProduceTau) {
+		BitSet superfluous = new BitSet(tree.getMaxNumberOfNodes());
+		int[] parents = new int[tree.getMaxNumberOfNodes()];
+		for (int node = tree.getMaxNumberOfNodes() - 1; node >= 0; node--) {
 			if (tree.isSequence(node) || tree.isConcurrent(node)) {
 				//any tau under a sequence or parallel can be removed
 				for (int child : tree.getChildren(node)) {
