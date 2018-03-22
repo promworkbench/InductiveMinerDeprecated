@@ -1,8 +1,5 @@
 package org.processmining.plugins.InductiveMiner;
 
-import gnu.trove.iterator.TObjectLongIterator;
-import gnu.trove.map.hash.TObjectLongHashMap;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -10,6 +7,9 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+
+import gnu.trove.iterator.TObjectLongIterator;
+import gnu.trove.map.hash.TObjectLongHashMap;
 
 public class MultiSet<X> implements Iterable<X> {
 
@@ -88,7 +88,6 @@ public class MultiSet<X> implements Iterable<X> {
 	 * Add each element of the collection, each with cardinality 1.
 	 * 
 	 * @param collection
-	 * @param cardinality
 	 * @return
 	 */
 	public boolean addAll(Collection<X> collection) {
@@ -224,7 +223,7 @@ public class MultiSet<X> implements Iterable<X> {
 	public String toString() {
 		return cardinalities.toString();
 	}
-	
+
 	public MultiSet<X> clone() {
 		MultiSet<X> result = new MultiSet<>();
 		result.addAll(this);

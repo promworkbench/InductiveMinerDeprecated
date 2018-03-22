@@ -1,9 +1,5 @@
 package org.processmining.plugins.InductiveMiner.mining.cuts.IMlc;
 
-import gnu.trove.map.TObjectIntMap;
-import gnu.trove.map.hash.TIntObjectHashMap;
-import gnu.trove.set.hash.THashSet;
-
 import java.util.Collection;
 import java.util.Set;
 
@@ -18,11 +14,15 @@ import org.processmining.plugins.InductiveMiner.mining.cuts.Cut.Operator;
 import org.processmining.plugins.InductiveMiner.mining.cuts.CutFinder;
 import org.processmining.plugins.InductiveMiner.mining.logs.IMLog;
 
+import gnu.trove.map.TObjectIntMap;
+import gnu.trove.map.hash.TIntObjectHashMap;
+import gnu.trove.set.hash.THashSet;
+
 public class CutFinderIMlcInterleaved implements CutFinder {
 
 	public Cut findCut(IMLog log, IMLogInfo logInfo, MinerState minerState) {
-		Cut cut = findCutBasic(logInfo.getDfg(), logInfo.getDfg().getDirectlyFollowsGraph(), logInfo.getDfg()
-				.getConcurrencyGraph());
+		Cut cut = findCutBasic(logInfo.getDfg(), logInfo.getDfg().getDirectlyFollowsGraph(),
+				logInfo.getDfg().getConcurrencyGraph());
 		if (cut == null) {
 			return null;
 		}
@@ -34,9 +34,9 @@ public class CutFinderIMlcInterleaved implements CutFinder {
 	 * Finds the special case int(A, B) where A is not interleaved itself (B
 	 * might be).
 	 * 
+	 * @param dfg
 	 * @param partition
 	 * @param directlyFollowsGraph
-	 * @param startActivities
 	 * @return
 	 */
 	public static Cut findSpecialCase(Dfg dfg, Collection<Set<XEventClass>> partition,
@@ -123,11 +123,11 @@ public class CutFinderIMlcInterleaved implements CutFinder {
 				}
 			}
 		}
-		
+
 		if (components.getNumberOfComponents() < 2) {
 			return null;
 		}
-		
+
 		return new Cut(Operator.maybeInterleaved, components.getComponents());
 	}
 

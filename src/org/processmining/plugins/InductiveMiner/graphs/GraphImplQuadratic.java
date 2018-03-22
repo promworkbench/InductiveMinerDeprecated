@@ -97,8 +97,8 @@ public class GraphImplQuadratic<V> implements Graph<V> {
 	}
 
 	/**
-	 * Gives an iterable that iterates over all edges that have a weight > 0;
-	 * The edges that returns are indices.
+	 * Gives an iterable that iterates over all edges that have a weight greater
+	 * than 0; The edges that returns are indices.
 	 * 
 	 * @return
 	 */

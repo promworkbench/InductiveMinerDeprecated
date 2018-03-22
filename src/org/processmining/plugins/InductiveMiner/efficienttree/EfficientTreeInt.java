@@ -1,19 +1,19 @@
 package org.processmining.plugins.InductiveMiner.efficienttree;
 
 import gnu.trove.map.TObjectIntMap;
-import gnu.trove.map.hash.TObjectIntHashMap;
 
 /**
  * Class to store a process tree memory efficient and perform operations cpu
  * efficient.
  * 
- * Idea: keep an array of int. An activity is a >= 0 value. A node is a negative
- * value. Some bits encode the operator, the other bits the number of children.
+ * Idea: keep an array of int. An activity is a greater than 0 value. A node is
+ * a negative value. Some bits encode the operator, the other bits the number of
+ * children.
  * 
  * @author sleemans
  *
  */
-public abstract class EfficientTreeAb implements Cloneable {
+public interface EfficientTreeInt extends Cloneable {
 
 	public static enum NodeType {
 		tau(-1), activity(0), xor(-2), sequence(-3), interleaved(-4), concurrent(-5), or(-6), loop(-7), skip(-8);
@@ -23,11 +23,6 @@ public abstract class EfficientTreeAb implements Cloneable {
 		NodeType(int code) {
 			this.code = code;
 		}
-	}
-
-	@Deprecated
-	public static TObjectIntMap<String> getEmptyActivity2int() {
-		return new TObjectIntHashMap<String>(8, 0.5f, -1);
 	}
 
 	/**
@@ -151,7 +146,6 @@ public abstract class EfficientTreeAb implements Cloneable {
 
 	/**
 	 * 
-	 * @param tree
 	 * @param node
 	 * @return the activity name denoted at position node. Only call if the node
 	 *         is an activity.
@@ -253,5 +247,5 @@ public abstract class EfficientTreeAb implements Cloneable {
 	 */
 	public abstract void swap(int startA, int startB, int lengthB);
 
-	public abstract EfficientTreeAb clone() throws CloneNotSupportedException;
+	public abstract EfficientTreeInt clone() throws CloneNotSupportedException;
 }

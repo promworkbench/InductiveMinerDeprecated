@@ -15,7 +15,7 @@ public class ConnectedComponents2 {
 	/**
 	 * Returns the connected components of G.
 	 * 
-	 * @param G
+	 * @param graph
 	 * @return
 	 */
 	public static <Y> List<Set<Y>> compute(Graph<Y> graph) {

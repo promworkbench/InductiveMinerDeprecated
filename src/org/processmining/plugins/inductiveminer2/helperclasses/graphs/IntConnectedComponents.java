@@ -16,7 +16,7 @@ public class IntConnectedComponents {
 	/**
 	 * Returns the connected components of G.
 	 * 
-	 * @param G
+	 * @param graph
 	 * @return
 	 */
 	public static List<TIntSet> compute(IntGraph graph) {

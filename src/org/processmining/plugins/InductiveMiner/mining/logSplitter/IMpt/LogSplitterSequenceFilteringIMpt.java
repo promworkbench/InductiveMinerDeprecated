@@ -141,7 +141,7 @@ public class LogSplitterSequenceFilteringIMpt implements LogSplitter {
 	/**
 	 * Progress all trace iterators
 	 * 
-	 * @param mapSigma2Trace
+	 * @param mapSigma2TraceIterator
 	 * @return
 	 */
 	public static Map<Set<XEventClass>, IMTrace> progress(

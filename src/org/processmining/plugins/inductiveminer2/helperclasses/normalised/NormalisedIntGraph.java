@@ -79,7 +79,7 @@ public interface NormalisedIntGraph extends Cloneable {
 	 * Return an iterable of edgeIndex containing all edges of which v is a
 	 * source or a target. Notice that the edge weight might be 0.
 	 * 
-	 * @param v
+	 * @param normalisedNode
 	 * @return
 	 */
 	public Iterable<Long> getEdgesOf(int normalisedNode);

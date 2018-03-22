@@ -98,7 +98,6 @@ public class MultiIntSet implements Iterable<Integer> {
 	 * Add each element of the collection, each with cardinality 1.
 	 * 
 	 * @param collection
-	 * @param cardinality
 	 * @return
 	 */
 	public boolean addAll(Collection<Integer> collection) {

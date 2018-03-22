@@ -3,8 +3,8 @@ package org.processmining.plugins.InductiveMiner.mining;
 import java.util.Iterator;
 
 import org.processmining.framework.packages.PackageManager.Canceller;
-import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeAb;
 import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTree2processTree;
+import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeInt;
 import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeReduce;
 import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeReduce.ReductionFailedException;
 import org.processmining.plugins.InductiveMiner.efficienttree.ProcessTree2EfficientTree;
@@ -72,7 +72,7 @@ public class Miner {
 		if (parameters.getReduceParameters() != null) {
 			try {
 				//reduce the tree
-				EfficientTreeAb eTree = ProcessTree2EfficientTree.convert(tree);
+				EfficientTreeInt eTree = ProcessTree2EfficientTree.convert(tree);
 				EfficientTreeReduce.reduce(eTree, parameters.getReduceParameters());
 				tree = EfficientTree2processTree.convert(eTree);
 				debug("after reduction " + tree.getRoot(), minerState);
@@ -242,15 +242,6 @@ public class Miner {
 		throw new UnknownTreeNodeException();
 	}
 
-	/**
-	 * 
-	 * @param tree
-	 * @param node
-	 * @param log
-	 *            The log used as input for the mining algorithm. Provide null
-	 *            if this node was not directly derived from a log (e.g. it is a
-	 *            child in a flower-loop).
-	 */
 	public static void addNode(ProcessTree tree, Node node) {
 		node.setProcessTree(tree);
 		tree.addNode(node);

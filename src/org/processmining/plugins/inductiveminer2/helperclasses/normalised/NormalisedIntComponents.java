@@ -55,8 +55,8 @@ public class NormalisedIntComponents {
 	 * Merge the components of the two nodes. If they are in the same component,
 	 * runs in O(1). If they are not, runs in O(n) (n = number of nodes).
 	 * 
-	 * @param indexA
-	 * @param indexB
+	 * @param normalisedA
+	 * @param normalisedB
 	 */
 	public void mergeComponentsOf(int normalisedA, int normalisedB) {
 		int source = node2component[normalisedA];

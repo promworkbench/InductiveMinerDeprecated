@@ -31,9 +31,9 @@ public class FallThroughTauLoop implements FallThrough {
 	 * 
 	 * @param useLifeCycle
 	 *            Denotes whether activity instances (i.e. combination of start
-	 *            & a complete event) should be kept together at all times. True
-	 *            = keep activity instances together; false = activity instances
-	 *            may be split.
+	 *            &nbsp; a complete event) should be kept together at all times.
+	 *            True = keep activity instances together; false = activity
+	 *            instances may be split.
 	 */
 	public FallThroughTauLoop(boolean useLifeCycle) {
 		this.useLifeCycle = useLifeCycle;

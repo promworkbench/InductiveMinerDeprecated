@@ -96,10 +96,10 @@ public interface IntGraph extends Cloneable {
 	 * Return an iterable of edgeIndex containing all edges of which v is a
 	 * source or a target. Notice that the edge weight might be 0.
 	 * 
-	 * @param v
+	 * @param node
 	 * @return
 	 */
-	public Iterable<Long> getEdgesOf(int Node);
+	public Iterable<Long> getEdgesOf(int node);
 
 	/**
 	 * Returns the weight of the edge with the highest weight.

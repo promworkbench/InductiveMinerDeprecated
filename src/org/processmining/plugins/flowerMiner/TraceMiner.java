@@ -13,10 +13,11 @@ import org.processmining.framework.plugin.PluginContext;
 import org.processmining.framework.plugin.annotations.Plugin;
 import org.processmining.framework.plugin.annotations.PluginLevel;
 import org.processmining.framework.plugin.annotations.PluginVariant;
-import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeAb;
-import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeAb.NodeType;
 import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTree2processTree;
+import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeFactory;
 import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeImpl;
+import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeInt;
+import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeInt.NodeType;
 import org.processmining.plugins.InductiveMiner.mining.MiningParameters;
 import org.processmining.plugins.InductiveMiner.plugins.dialogs.IMMiningDialog;
 import org.processmining.processtree.ProcessTree;
@@ -37,7 +38,7 @@ public class TraceMiner {
 		return EfficientTree2processTree.convert(mineTraceModel(log, MiningParameters.getDefaultClassifier()));
 	}
 
-	public static EfficientTreeAb mineTraceModel(XLog log, XEventClassifier classifier) {
+	public static EfficientTreeInt mineTraceModel(XLog log, XEventClassifier classifier) {
 		//initialise the tree
 		final TObjectIntMap<String> activity2int = EfficientTreeImpl.getEmptyActivity2int();
 		final ArrayList<String> int2activity = new ArrayList<>();
@@ -107,6 +108,6 @@ public class TraceMiner {
 			int2activity2[it.value()] = it.key();
 		}
 
-		return new EfficientTreeImpl(tree.toArray(), activity2int, int2activity2);
+		return EfficientTreeFactory.create(tree.toArray(), activity2int, int2activity2);
 	}
 }

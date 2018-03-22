@@ -4,17 +4,17 @@ import org.processmining.contexts.uitopia.UIPluginContext;
 import org.processmining.contexts.uitopia.annotations.UITopiaVariant;
 import org.processmining.framework.plugin.annotations.Plugin;
 import org.processmining.framework.plugin.annotations.PluginVariant;
-import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeAb;
+import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeInt;
 import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTree2processTree;
 import org.processmining.plugins.InductiveMiner.efficienttree.ProcessTree2EfficientTree;
 import org.processmining.processtree.ProcessTree;
 
 public class ProcessTree2EfficientTreePlugin {
 	@Plugin(name = "Convert process tree to efficient tree", returnLabels = { "Efficient Tree" }, returnTypes = {
-			EfficientTreeAb.class }, parameterLabels = { "Process tree" }, userAccessible = true)
+			EfficientTreeInt.class }, parameterLabels = { "Process tree" }, userAccessible = true)
 	@UITopiaVariant(affiliation = UITopiaVariant.EHV, author = "S.J.J. Leemans", email = "s.j.j.leemans@tue.nl")
 	@PluginVariant(variantLabel = "Mine a Process Tree, dialog", requiredParameterLabels = { 0 })
-	public EfficientTreeAb measure1automata(UIPluginContext context, ProcessTree tree) throws Exception {
+	public EfficientTreeInt measure1automata(UIPluginContext context, ProcessTree tree) throws Exception {
 		return ProcessTree2EfficientTree.convert(tree);
 	}
 
@@ -22,7 +22,7 @@ public class ProcessTree2EfficientTreePlugin {
 			ProcessTree.class }, parameterLabels = { "Efficient tree" }, userAccessible = true)
 	@UITopiaVariant(affiliation = UITopiaVariant.EHV, author = "S.J.J. Leemans", email = "s.j.j.leemans@tue.nl")
 	@PluginVariant(variantLabel = "Mine a Process Tree, dialog", requiredParameterLabels = { 0 })
-	public ProcessTree convertBack(UIPluginContext context, EfficientTreeAb tree) throws Exception {
+	public ProcessTree convertBack(UIPluginContext context, EfficientTreeInt tree) throws Exception {
 		return EfficientTree2processTree.convert(tree);
 	}
 }

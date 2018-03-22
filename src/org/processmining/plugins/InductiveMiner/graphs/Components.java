@@ -1,10 +1,5 @@
 package org.processmining.plugins.InductiveMiner.graphs;
 
-import gnu.trove.map.hash.TIntIntHashMap;
-import gnu.trove.map.hash.TObjectIntHashMap;
-import gnu.trove.procedure.TObjectIntProcedure;
-import gnu.trove.set.hash.THashSet;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -13,6 +8,11 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.common.primitives.Ints;
+
+import gnu.trove.map.hash.TIntIntHashMap;
+import gnu.trove.map.hash.TObjectIntHashMap;
+import gnu.trove.procedure.TObjectIntProcedure;
+import gnu.trove.set.hash.THashSet;
 
 public class Components<V> {
 
@@ -79,8 +79,8 @@ public class Components<V> {
 	 * runs in O(1). If they are not, runs in O(n) (n = number of nodes). Use
 	 * the integer variant if possible.
 	 * 
-	 * @param indexA
-	 * @param indexB
+	 * @param nodeA
+	 * @param nodeB
 	 */
 	public void mergeComponentsOf(V nodeA, V nodeB) {
 		mergeComponentsOf(node2index.get(nodeA), node2index.get(nodeB));

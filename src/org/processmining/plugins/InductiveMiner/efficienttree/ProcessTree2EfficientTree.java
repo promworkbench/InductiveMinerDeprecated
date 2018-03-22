@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.processmining.plugins.InductiveMiner.Triple;
-import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeAb.NodeType;
+import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeInt.NodeType;
 import org.processmining.plugins.InductiveMiner.mining.interleaved.Interleaved;
 import org.processmining.processtree.Block;
 import org.processmining.processtree.Block.And;
@@ -31,28 +31,26 @@ public class ProcessTree2EfficientTree {
 	 * @return
 	 * @throws UnknownTreeNodeException
 	 */
-	public static EfficientTreeImpl convert(ProcessTree processTree) throws UnknownTreeNodeException {
+	public static EfficientTree convert(ProcessTree processTree) throws UnknownTreeNodeException {
 		return convert(processTree.getRoot());
 	}
 
 	/**
 	 * Convert a process tree node to a efficient tree
 	 * 
-	 * @param processTree
+	 * @param node
 	 * @return
 	 * @throws UnknownTreeNodeException
 	 */
-	public static EfficientTreeImpl convert(Node node) throws UnknownTreeNodeException {
+	public static EfficientTree convert(Node node) throws UnknownTreeNodeException {
 		Triple<int[], TObjectIntMap<String>, String[]> t = tree2efficientTree(node);
-		return new EfficientTreeImpl(t.getA(), t.getB(), t.getC());
+		return EfficientTreeFactory.create(t.getA(), t.getB(), t.getC());
 	}
 
 	/**
 	 * Convert a process tree into a efficient tree
 	 * 
-	 * @param tree
-	 * @param activity2int
-	 *            map from activity names to ints >= 0
+	 * @param node
 	 * @return
 	 * @throws UnknownTreeNodeException
 	 */

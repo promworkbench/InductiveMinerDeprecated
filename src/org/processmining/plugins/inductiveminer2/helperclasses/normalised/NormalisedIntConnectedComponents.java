@@ -18,7 +18,8 @@ public class NormalisedIntConnectedComponents {
 	/**
 	 * Returns the connected components of G.
 	 * 
-	 * @param G
+	 * @param graph
+	 * @param numberOfNodes
 	 * @return
 	 */
 	public static List<TIntSet> compute(NormalisedIntGraph graph, int numberOfNodes) {

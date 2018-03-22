@@ -1,7 +1,7 @@
 package org.processmining.plugins.InductiveMiner.efficienttree.reductionrules;
 
-import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeAb;
-import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeAb.NodeType;
+import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeInt;
+import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeInt.NodeType;
 import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeMetrics;
 import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeReductionRule;
 import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeUtils;
@@ -10,7 +10,7 @@ import org.processmining.plugins.InductiveMiner.efficienttree.UnknownTreeNodeExc
 @Deprecated
 public class LoopTauATau2flower implements EfficientTreeReductionRule {
 
-	public boolean apply(EfficientTreeAb tree, int loop) throws UnknownTreeNodeException {
+	public boolean apply(EfficientTreeInt tree, int loop) throws UnknownTreeNodeException {
 
 		//look for loop( tau1, A, tau3)
 		if (tree.isLoop(loop)) {

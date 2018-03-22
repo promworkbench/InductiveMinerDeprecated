@@ -2,7 +2,7 @@ package org.processmining.plugins.InductiveMiner.efficienttree;
 
 import java.util.Iterator;
 
-import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeAb.NodeType;
+import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeInt.NodeType;
 
 public class EfficientTreeUtils {
 
@@ -10,7 +10,7 @@ public class EfficientTreeUtils {
 	 * 
 	 * @return whether the tree is consistent.
 	 */
-	public static boolean isConsistent(EfficientTreeAb tree) {
+	public static boolean isConsistent(EfficientTreeInt tree) {
 		int treeLength = tree.traverse(0);
 
 		if (treeLength != tree.getMaxNumberOfNodes() && tree.getNodeType(treeLength) != NodeType.skip) {
@@ -37,7 +37,7 @@ public class EfficientTreeUtils {
 	 * @param node
 	 * @return The parent of node.
 	 */
-	public static int getParent(EfficientTreeAb tree, int node) {
+	public static int getParent(EfficientTreeInt tree, int node) {
 		assert (node != tree.getRoot());
 
 		int potentialParent = node - 1;
@@ -54,7 +54,7 @@ public class EfficientTreeUtils {
 	 * @param parent
 	 * @param child
 	 */
-	public static void removeChild(EfficientTreeAb tree, int parent, int child) {
+	public static void removeChild(EfficientTreeInt tree, int parent, int child) {
 		assert (tree.isActivity(child) || tree.isTau(child) || tree.getNumberOfChildren(child) == 0);
 
 		//move everything beyond the child
@@ -71,7 +71,7 @@ public class EfficientTreeUtils {
 	 * @param tree
 	 * @param node
 	 */
-	public static void replaceNodeWithTau(EfficientTreeAb tree, int node) {
+	public static void replaceNodeWithTau(EfficientTreeInt tree, int node) {
 		if (tree.isTau(node)) {
 			return;
 		}
@@ -94,7 +94,7 @@ public class EfficientTreeUtils {
 	 * @param child
 	 * @return Whether the child is a direct or indirect child of parent.
 	 */
-	public static boolean isParentOf(EfficientTreeAb tree, int parent, int child) {
+	public static boolean isParentOf(EfficientTreeInt tree, int parent, int child) {
 		if (parent > child) {
 			return false;
 		}
@@ -108,7 +108,7 @@ public class EfficientTreeUtils {
 	 * @return The child of parent that contains grandChild. If grandChild is
 	 *         not a child of parent, will return -1.
 	 */
-	public static int getChildWith(EfficientTreeAb tree, int parent, int grandChild) {
+	public static int getChildWith(EfficientTreeInt tree, int parent, int grandChild) {
 		for (int child : tree.getChildren(parent)) {
 			if (isParentOf(tree, child, grandChild)) {
 				return child;
@@ -124,7 +124,7 @@ public class EfficientTreeUtils {
 	 * @return The number of the child within parent that contains grandChild.
 	 *         If grandChild is not a child of parent, will return -1.
 	 */
-	public static int getChildNumberWith(EfficientTreeAb tree, int parent, int grandChild) {
+	public static int getChildNumberWith(EfficientTreeInt tree, int parent, int grandChild) {
 		int childNumber = 0;
 		for (int child : tree.getChildren(parent)) {
 			if (isParentOf(tree, child, grandChild)) {
@@ -143,7 +143,7 @@ public class EfficientTreeUtils {
 	 * @return The node that is a parent of both nodeA and nodeB, or is nodeA or
 	 *         nodeB itself.
 	 */
-	public static int getLowestCommonParent(EfficientTreeAb tree, int nodeA, int nodeB) {
+	public static int getLowestCommonParent(EfficientTreeInt tree, int nodeA, int nodeB) {
 		if (nodeA > nodeB) {
 			return getLowestCommonParent(tree, nodeB, nodeA);
 		}
@@ -158,11 +158,11 @@ public class EfficientTreeUtils {
 		return lowestCommonParent;
 	}
 
-	public static Iterable<Integer> getAllNodes(EfficientTreeAb tree) {
+	public static Iterable<Integer> getAllNodes(EfficientTreeInt tree) {
 		return getAllNodes(tree, tree.getRoot());
 	}
 
-	public static Iterable<Integer> getAllNodes(final EfficientTreeAb tree, final int child) {
+	public static Iterable<Integer> getAllNodes(final EfficientTreeInt tree, final int child) {
 		return new Iterable<Integer>() {
 			public Iterator<Integer> iterator() {
 				return new Iterator<Integer>() {

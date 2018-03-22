@@ -135,7 +135,7 @@ public interface Dfg extends NormalisedIntDfg {
 	/**
 	 * Add the start activities in the dfg to the start activities.
 	 * 
-	 * @param startActivities
+	 * @param dfg
 	 */
 	public void addStartActivities(Dfg dfg);
 
@@ -166,7 +166,7 @@ public interface Dfg extends NormalisedIntDfg {
 	/**
 	 * Add the end activities in the dfg to the end activities.
 	 * 
-	 * @param startActivities
+	 * @param dfg
 	 */
 	public void addEndActivities(Dfg dfg);
 

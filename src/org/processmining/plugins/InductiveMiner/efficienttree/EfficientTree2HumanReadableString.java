@@ -16,7 +16,7 @@ public class EfficientTree2HumanReadableString {
 	 * @return A human-readable representation of the tree. Notice that it might
 	 *         not be machine-readable.
 	 */
-	public static String toString(EfficientTreeAb tree) {
+	public static String toString(EfficientTreeInt tree) {
 		return tree2string(tree, 0, tree.getRoot(), false);
 	}
 
@@ -26,11 +26,11 @@ public class EfficientTree2HumanReadableString {
 	 * @return A string representation of the tree that can be read by humans
 	 *         and machines.
 	 */
-	public static String toMachineString(EfficientTreeAb tree) {
+	public static String toMachineString(EfficientTreeInt tree) {
 		return tree2string(tree, 0, tree.getRoot(), true);
 	}
 
-	public static String tree2string(EfficientTreeAb tree, int indent, int node, boolean machineReadable) {
+	public static String tree2string(EfficientTreeInt tree, int indent, int node, boolean machineReadable) {
 		StringBuilder result = new StringBuilder();
 		result.append(StringUtils.repeat("\t", indent));
 		if (tree.isActivity(node)) {

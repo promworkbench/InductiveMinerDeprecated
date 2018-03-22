@@ -1,8 +1,5 @@
 package org.processmining.plugins.InductiveMiner.mining.logSplitter;
 
-import gnu.trove.map.hash.THashMap;
-import gnu.trove.set.hash.THashSet;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -19,6 +16,9 @@ import org.processmining.plugins.InductiveMiner.mining.MinerState;
 import org.processmining.plugins.InductiveMiner.mining.cuts.Cut;
 import org.processmining.plugins.InductiveMiner.mining.logs.IMLog;
 import org.processmining.plugins.InductiveMiner.mining.logs.IMTrace;
+
+import gnu.trove.map.hash.THashMap;
+import gnu.trove.set.hash.THashSet;
 
 public class LogSplitterSequenceFiltering implements LogSplitter {
 
@@ -104,7 +104,7 @@ public class LogSplitterSequenceFiltering implements LogSplitter {
 	/**
 	 * Progress all trace iterators
 	 * 
-	 * @param mapSigma2Trace
+	 * @param mapSigma2TraceIterator
 	 * @return
 	 */
 	public static Map<Set<XEventClass>, IMTrace> progress(

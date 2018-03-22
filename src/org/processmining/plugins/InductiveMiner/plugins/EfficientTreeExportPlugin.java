@@ -10,7 +10,7 @@ import org.processmining.contexts.uitopia.UIPluginContext;
 import org.processmining.contexts.uitopia.annotations.UIExportPlugin;
 import org.processmining.framework.plugin.annotations.Plugin;
 import org.processmining.framework.plugin.annotations.PluginVariant;
-import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeAb;
+import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeInt;
 import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTree2HumanReadableString;
 
 @Plugin(name = "EfficientTree export", returnLabels = {}, returnTypes = {}, parameterLabels = { "EfficientTree", "File" }, userAccessible = true)
@@ -18,11 +18,11 @@ import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTree2Huma
 public class EfficientTreeExportPlugin {
 	
 	@PluginVariant(variantLabel = "EfficientTree export", requiredParameterLabels = { 0, 1 })
-	public void exportDefault(UIPluginContext context, EfficientTreeAb tree, File file) throws IOException {
+	public void exportDefault(UIPluginContext context, EfficientTreeInt tree, File file) throws IOException {
 		export(tree, file);
 	}
 	
-	public static void export(EfficientTreeAb tree, File file) throws IOException {
+	public static void export(EfficientTreeInt tree, File file) throws IOException {
 		BufferedWriter result = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file)));
 		result.append(EfficientTree2HumanReadableString.toMachineString(tree));
 		result.flush();

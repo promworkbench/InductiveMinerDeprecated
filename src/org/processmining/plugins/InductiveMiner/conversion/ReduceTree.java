@@ -4,7 +4,7 @@ import org.processmining.contexts.uitopia.annotations.UITopiaVariant;
 import org.processmining.framework.plugin.PluginContext;
 import org.processmining.framework.plugin.annotations.Plugin;
 import org.processmining.framework.plugin.annotations.PluginVariant;
-import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeAb;
+import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeInt;
 import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTree2processTree;
 import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeReduce;
 import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeReduce.ReductionFailedException;
@@ -41,7 +41,7 @@ public class ReduceTree {
 			throws UnknownTreeNodeException {
 		for (Node child : node.getChildren()) {
 			//convert child to an efficient tree
-			EfficientTreeAb partialTree = ProcessTree2EfficientTree.convert(child);
+			EfficientTreeInt partialTree = ProcessTree2EfficientTree.convert(child);
 			try {
 				EfficientTreeReduce.reduce(partialTree, reduceParameters);
 			} catch (ReductionFailedException e) {
@@ -53,7 +53,7 @@ public class ReduceTree {
 
 	public static ProcessTree reduceTree(ProcessTree tree, EfficientTreeReduceParameters reduceParameters)
 			throws UnknownTreeNodeException, ReductionFailedException {
-		EfficientTreeAb efficientTree = ProcessTree2EfficientTree.convert(tree);
+		EfficientTreeInt efficientTree = ProcessTree2EfficientTree.convert(tree);
 		EfficientTreeReduce.reduce(efficientTree, reduceParameters);
 		return EfficientTree2processTree.convert(efficientTree);
 	}

@@ -1,13 +1,13 @@
 package org.processmining.plugins.InductiveMiner.efficienttree.reductionrules;
 
-import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeAb;
-import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeAb.NodeType;
+import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeInt;
+import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeInt.NodeType;
 import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeReductionRule;
 import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeUtils;
 
 public class TauChildOfOr implements EfficientTreeReductionRule {
 
-	public boolean apply(EfficientTreeAb tree, int node) {
+	public boolean apply(EfficientTreeInt tree, int node) {
 		if (tree.isOr(node)) {
 			if (tree.getNumberOfChildren(node) > 1) {
 				for (int child : tree.getChildren(node)) {

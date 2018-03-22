@@ -1,13 +1,13 @@
 package org.processmining.plugins.InductiveMiner.efficienttree.reductionrules;
 
-import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeAb;
-import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeAb.NodeType;
+import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeInt;
+import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeInt.NodeType;
 import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeReductionRule;
 import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeUtils;
 
 public class XorTauTauLoop2flowerRevert implements EfficientTreeReductionRule {
 
-	public boolean apply(EfficientTreeAb tree, int node) {
+	public boolean apply(EfficientTreeInt tree, int node) {
 		if (tree.isXor(node) && tree.getNumberOfChildren(node) == 2) {
 
 			//search for a tau

@@ -8,9 +8,10 @@ import org.processmining.framework.plugin.annotations.PluginVariant;
 import org.processmining.plugins.InductiveMiner.dfgOnly.Dfg;
 import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTree;
 import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTree2processTree;
-import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeAb;
-import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeAb.NodeType;
+import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeFactory;
 import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeImpl;
+import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeInt;
+import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeInt.NodeType;
 import org.processmining.plugins.InductiveMiner.plugins.dialogs.IMMiningDialog;
 import org.processmining.processtree.ProcessTree;
 
@@ -24,7 +25,7 @@ public class FlowerMinerDfg {
 		return EfficientTree2processTree.convert(mine(dfg.getActivities()));
 	}
 
-	public static EfficientTreeAb mine(XEventClass[] vertices) {
+	public static EfficientTreeInt mine(XEventClass[] vertices) {
 
 		//construct activity structures
 		String[] int2activity = new String[vertices.length];
@@ -46,7 +47,7 @@ public class FlowerMinerDfg {
 		tree[2 + int2activity.length] = NodeType.tau.code;
 		tree[3 + int2activity.length] = NodeType.tau.code;
 		
-		return new EfficientTreeImpl(tree, activity2int, int2activity);
+		return EfficientTreeFactory.create(tree, activity2int, int2activity);
 	}
 	
 	public static EfficientTree mine(String[] activities) {
@@ -70,6 +71,6 @@ public class FlowerMinerDfg {
 		tree[2 + int2activity.length] = NodeType.tau.code;
 		tree[3 + int2activity.length] = NodeType.tau.code;
 		
-		return new EfficientTree(tree, activity2int, int2activity);
+		return EfficientTreeFactory.create(tree, activity2int, int2activity);
 	}
 }

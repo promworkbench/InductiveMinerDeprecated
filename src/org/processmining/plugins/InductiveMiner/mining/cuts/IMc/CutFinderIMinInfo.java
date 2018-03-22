@@ -24,16 +24,15 @@ public class CutFinderIMinInfo {
 	/**
 	 * A CutFinderIMinInfo keeps track of a single call to the IMin cut finder.
 	 * 
-	 * @param startActivities
-	 * @param endActivities
+	 * @param dfg
 	 * @param graph2
 	 * @param transitiveGraph2
+	 * @param minimumSelfDistancesBetween
 	 * @param probabilities
+	 * @param jobList
 	 * @param debug
 	 */
-	public CutFinderIMinInfo(Dfg dfg,
-			Graph<XEventClass> graph2,
-			Graph<XEventClass> transitiveGraph2,
+	public CutFinderIMinInfo(Dfg dfg, Graph<XEventClass> graph2, Graph<XEventClass> transitiveGraph2,
 			Map<XEventClass, MultiSet<XEventClass>> minimumSelfDistancesBetween, Probabilities probabilities,
 			JobList jobList, boolean debug) {
 		this.dfg = dfg;

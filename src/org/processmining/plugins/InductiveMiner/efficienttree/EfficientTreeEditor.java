@@ -41,7 +41,7 @@ public class EfficientTreeEditor extends JPanel {
 	 *            If not null, the message will be shown to the user and editing
 	 *            the model will be disabled.
 	 */
-	public EfficientTreeEditor(EfficientTreeAb tree, String message) {
+	public EfficientTreeEditor(EfficientTreeInt tree, String message) {
 		setLayout(new BorderLayout());
 		setOpaque(false);
 
@@ -81,7 +81,7 @@ public class EfficientTreeEditor extends JPanel {
 				//if we're good to go, send an update to the controller
 				if (actionListener != null && !contentChangedFromController) {
 					try {
-						Triple<EfficientTreeAb, Integer, String> result = ProcessTreeParser.parse(text.getText(),
+						Triple<EfficientTree, Integer, String> result = ProcessTreeParser.parse(text.getText(),
 								spacesPerTab);
 						if (result.getA() == null) {
 							//set error message
@@ -90,7 +90,7 @@ public class EfficientTreeEditor extends JPanel {
 							//remove error message
 							setErrorMessage(-1, null);
 
-							EfficientTreeAb newTree = result.getA();
+							EfficientTreeInt newTree = result.getA();
 							final ActionEvent e2 = new ActionEvent(newTree, 0, "");
 							SwingUtilities.invokeLater(new Runnable() {
 								public void run() {
@@ -172,7 +172,7 @@ public class EfficientTreeEditor extends JPanel {
 	 * 
 	 * @param tree
 	 */
-	public void setTree(EfficientTreeAb tree) {
+	public void setTree(EfficientTreeInt tree) {
 		assert (tree != null);
 		contentChangedFromController = true;
 		text.setText(EfficientTree2HumanReadableString.toString(tree));

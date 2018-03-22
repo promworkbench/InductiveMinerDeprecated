@@ -45,8 +45,8 @@ public class IntGraphImplQuadratic implements IntGraph {
 	}
 
 	/**
-	 * Gives an iterable that iterates over all edges that have a weight > 0;
-	 * The edges that are returned are indices.
+	 * Gives an iterable that iterates over all edges that have a weight greater
+	 * than 0; The edges that are returned are indices.
 	 * 
 	 * @return
 	 */

@@ -5,7 +5,7 @@ import org.processmining.framework.plugin.PluginContext;
 import org.processmining.framework.plugin.annotations.Plugin;
 import org.processmining.framework.plugin.annotations.PluginLevel;
 import org.processmining.framework.plugin.annotations.PluginVariant;
-import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeAb;
+import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeInt;
 import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTree2processTree;
 import org.processmining.plugins.InductiveMiner.plugins.dialogs.IMMiningDialog;
 import org.processmining.processtree.ProcessTree;
@@ -16,7 +16,7 @@ public class EfficientTree2processTreePlugin {
 					"Efficient tree" }, userAccessible = true, help = "Convert an efficient tree into a process tree.", level = PluginLevel.Regular)
 	@UITopiaVariant(affiliation = IMMiningDialog.affiliation, author = IMMiningDialog.author, email = IMMiningDialog.email)
 	@PluginVariant(variantLabel = "Mine a Process Tree, dialog", requiredParameterLabels = { 0 })
-	public ProcessTree mineGuiProcessTree(PluginContext context, EfficientTreeAb tree) {
+	public ProcessTree mineGuiProcessTree(PluginContext context, EfficientTreeInt tree) {
 		return EfficientTree2processTree.convert(tree);
 	}
 }

@@ -8,7 +8,7 @@ import org.processmining.plugins.InductiveMiner.Triple;
 import gnu.trove.map.TObjectIntMap;
 import gnu.trove.map.hash.TObjectIntHashMap;
 
-public class EfficientTreeImpl extends EfficientTreeAb {
+public class EfficientTreeImpl implements EfficientTreeInt {
 
 	public static final int childrenFactor = 10;
 
@@ -212,7 +212,6 @@ public class EfficientTreeImpl extends EfficientTreeAb {
 	/**
 	 * Copy the tree into a tight array
 	 * 
-	 * @param tree
 	 */
 	public EfficientTreeImpl shortenTree() {
 		int length = traverse(0);
@@ -240,7 +239,7 @@ public class EfficientTreeImpl extends EfficientTreeAb {
 	/**
 	 * Replace the tree structure.
 	 * 
-	 * @param newTree
+	 * @param tree
 	 */
 	public void replaceTree(int[] tree) {
 		this.tree = tree;
@@ -326,7 +325,8 @@ public class EfficientTreeImpl extends EfficientTreeAb {
 
 	@Override
 	public EfficientTree clone() throws CloneNotSupportedException {
-		return new EfficientTree(tree.clone(), new TObjectIntHashMap<String>(activity2int), int2activity.clone());
+		return EfficientTreeFactory.create(tree.clone(), new TObjectIntHashMap<String>(activity2int),
+				int2activity.clone());
 		//TODO: swap back
 
 		//EfficientTreeImpl result = (EfficientTreeImpl) super.clone();

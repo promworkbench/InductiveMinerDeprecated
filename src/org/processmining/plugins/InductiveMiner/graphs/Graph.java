@@ -97,7 +97,7 @@ public interface Graph<V> extends NormalisedIntGraph {
 
 	/**
 	 * 
-	 * @param e
+	 * @param v
 	 * @return the index of the given vertex
 	 */
 	public int getIndexOfVertex(V v);
