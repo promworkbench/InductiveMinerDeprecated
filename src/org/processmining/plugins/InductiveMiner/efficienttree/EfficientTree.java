@@ -258,5 +258,7 @@ public abstract class EfficientTree implements Cloneable, EfficientTreeInt {
 	 */
 	public abstract void swap(int startA, int startB, int lengthB);
 
-	//public abstract EfficientTree clone() throws CloneNotSupportedException;
+	public EfficientTree clone() throws CloneNotSupportedException {
+		return null;
+	}
 }
