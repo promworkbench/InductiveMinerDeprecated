@@ -3,8 +3,6 @@ package org.processmining.plugins.InductiveMiner.efficienttree;
 import java.util.Arrays;
 import java.util.Iterator;
 
-import org.processmining.plugins.InductiveMiner.Triple;
-
 import gnu.trove.map.TObjectIntMap;
 import gnu.trove.map.hash.TObjectIntHashMap;
 
@@ -35,10 +33,6 @@ public class EfficientTreeImpl implements EfficientTree {
 		this.tree = tree;
 		this.activity2int = activity2int;
 		this.int2activity = int2activity;
-	}
-
-	public Triple<int[], TObjectIntMap<String>, String[]> toTriple() {
-		return Triple.of(tree, activity2int, int2activity);
 	}
 
 	/**
@@ -325,15 +319,11 @@ public class EfficientTreeImpl implements EfficientTree {
 
 	@Override
 	public EfficientTree clone() throws CloneNotSupportedException {
-		return EfficientTreeFactory.create(tree.clone(), new TObjectIntHashMap<String>(activity2int),
-				int2activity.clone());
-		//TODO: swap back
-
-		//EfficientTreeImpl result = (EfficientTreeImpl) super.clone();
-		//result.tree = tree.clone();
-		//result.activity2int = new TObjectIntHashMap<String>(activity2int);
-		//result.int2activity = int2activity.clone();
-		//return result;
+		EfficientTreeImpl result = (EfficientTreeImpl) super.clone();
+		result.tree = tree.clone();
+		result.activity2int = new TObjectIntHashMap<String>(activity2int);
+		result.int2activity = int2activity.clone();
+		return result;
 	}
 
 	@Override
