@@ -208,7 +208,7 @@ public class InlineTree {
 				}
 			}
 
-			return combineTreesFast(operator, (EfficientTreeImpl) child1, (EfficientTreeImpl[]) children);
+			return combineTreesFast(operator, (EfficientTreeImpl) child1, children);
 		}
 
 		return combineTreesSlow(operator, child1, children);
@@ -280,7 +280,7 @@ public class InlineTree {
 	}
 
 	/**
-	 * Combine trees
+	 * Combine trees if all are of a known type.
 	 * 
 	 * @param operator
 	 * @param child1
@@ -288,7 +288,7 @@ public class InlineTree {
 	 * @return
 	 */
 	private static EfficientTree combineTreesFast(NodeType operator, EfficientTreeImpl child1,
-			EfficientTreeImpl... children) {
+			EfficientTree... children) {
 		//initialise the tree array
 		int[] newTree;
 		{
@@ -322,7 +322,8 @@ public class InlineTree {
 		}
 
 		//copy the other children
-		for (EfficientTreeImpl child : children) {
+		for (EfficientTree child2 : children) {
+			EfficientTreeImpl child = (EfficientTreeImpl) child2;
 			int size = child.traverse(0);
 
 			//copy the tree structure

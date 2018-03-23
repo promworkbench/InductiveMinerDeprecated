@@ -219,6 +219,7 @@ public class EfficientTreeImpl implements EfficientTree {
 		return tree[node] == NodeType.skip.code;
 	}
 
+	@Deprecated
 	public int[] getChildTree(int node) {
 		int next = traverse(node);
 		int[] result = new int[next - node];
