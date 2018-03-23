@@ -47,9 +47,11 @@ public class And2Or implements EfficientTreeReductionRule {
 			{
 				int at = node + 1;
 				for (int child : childrenThatCanProduceTau.toArray()) {
-					int lengthB = tree.traverse(child);
-					tree.swap(at, child, lengthB);
-					at += lengthB;
+					int endB = tree.traverse(child);
+					if (at != child) {
+						tree.swap(at, child, endB - child);
+					}
+					at = at + (endB - child);
 				}
 			}
 
@@ -58,65 +60,65 @@ public class And2Or implements EfficientTreeReductionRule {
 
 			//move all children backward and insert xor tau or
 			{
-				tree.copy(node + 1, node + 4, tree.getMaxNumberOfNodes() - node - 1);
+				tree.copy(node + 1, node + 4, tree.getMaxNumberOfNodes() - node - 4);
 
 				//set number of children of the and
 				tree.setNumberOfChildren(node,
 						(tree.getNumberOfChildren(node) - (childrenThatCanProduceTau.size() - 1)));
-				
+
 				tree.setNodeType(node + 1, NodeType.xor);
 				tree.setNumberOfChildren(node + 1, 2);
-				
+
 				tree.setNodeType(node + 2, NodeType.tau);
-				
+
 				tree.setNodeType(node + 3, NodeType.or);
 				tree.setNumberOfChildren(node + 3, childrenThatCanProduceTau.size());
 			}
-			
+
 			//now: and xor tau or Q2 Q4 ... ... ...
 			//     node
-			
+
 			return true;
 
-//			//copy the part up to the node
-//			System.arraycopy(tree.getTree(), 0, newTree, 0, node);
-//
-//			//set the number of children of and
-//			newTree[node] = NodeType.concurrent.code - EfficientTreeImpl.childrenFactor
-//					* (tree.getNumberOfChildren(node) - (childrenThatCanProduceTau.size() - 1));
-//
-//			int pos = node + 1;
-//			for (int child : tree.getChildren(node)) {
-//				int childLength = tree.traverse(child) - child;
-//				if (!childrenThatCanProduceTau.contains(child)) {
-//					//this child should stay in place, however it should be shifted to the left (pos)
-//					System.arraycopy(tree.getTree(), child, newTree, pos, childLength);
-//					pos += childLength;
-//				}
-//			}
-//
-//			//set the xor
-//			newTree[pos] = NodeType.xor.code - EfficientTreeImpl.childrenFactor * 2;
-//
-//			//set the tau
-//			newTree[pos + 1] = NodeType.tau.code;
-//
-//			//set the or
-//			newTree[pos + 2] = NodeType.or.code - EfficientTreeImpl.childrenFactor * childrenThatCanProduceTau.size();
-//
-//			pos += 3;
-//
-//			for (int child : childrenThatCanProduceTau.toArray()) {
-//				int childLength = tree.traverse(child) - child;
-//				System.arraycopy(tree.getTree(), child, newTree, pos, childLength);
-//				pos += childLength;
-//			}
-//
-//			//copy the part after the node
-//			int afterNode = tree.traverse(node);
-//			System.arraycopy(tree.getTree(), afterNode, newTree, pos, newTree.length - pos);
-//
-//			tree.replaceTree(newTree);
+			//			//copy the part up to the node
+			//			System.arraycopy(tree.getTree(), 0, newTree, 0, node);
+			//
+			//			//set the number of children of and
+			//			newTree[node] = NodeType.concurrent.code - EfficientTreeImpl.childrenFactor
+			//					* (tree.getNumberOfChildren(node) - (childrenThatCanProduceTau.size() - 1));
+			//
+			//			int pos = node + 1;
+			//			for (int child : tree.getChildren(node)) {
+			//				int childLength = tree.traverse(child) - child;
+			//				if (!childrenThatCanProduceTau.contains(child)) {
+			//					//this child should stay in place, however it should be shifted to the left (pos)
+			//					System.arraycopy(tree.getTree(), child, newTree, pos, childLength);
+			//					pos += childLength;
+			//				}
+			//			}
+			//
+			//			//set the xor
+			//			newTree[pos] = NodeType.xor.code - EfficientTreeImpl.childrenFactor * 2;
+			//
+			//			//set the tau
+			//			newTree[pos + 1] = NodeType.tau.code;
+			//
+			//			//set the or
+			//			newTree[pos + 2] = NodeType.or.code - EfficientTreeImpl.childrenFactor * childrenThatCanProduceTau.size();
+			//
+			//			pos += 3;
+			//
+			//			for (int child : childrenThatCanProduceTau.toArray()) {
+			//				int childLength = tree.traverse(child) - child;
+			//				System.arraycopy(tree.getTree(), child, newTree, pos, childLength);
+			//				pos += childLength;
+			//			}
+			//
+			//			//copy the part after the node
+			//			int afterNode = tree.traverse(node);
+			//			System.arraycopy(tree.getTree(), afterNode, newTree, pos, newTree.length - pos);
+			//
+			//			tree.replaceTree(newTree);
 
 		}
 		return false;

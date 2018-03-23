@@ -35,7 +35,7 @@ public class OrXorTau implements EfficientTreeReductionRule {
 							//         node
 
 							//move everything forward by two places
-							tree.copy(node, node + 2, tree.getMaxNumberOfNodes() - node);
+							tree.copy(node, node + 2, tree.getMaxNumberOfNodes() - node - 2);
 
 							//now: ... skip skip or  ... xor ... ...
 							//         node

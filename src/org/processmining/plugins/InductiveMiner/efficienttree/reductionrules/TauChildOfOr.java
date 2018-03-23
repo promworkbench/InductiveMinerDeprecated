@@ -29,7 +29,7 @@ public class TauChildOfOr implements EfficientTreeReductionRule {
 						//         node
 
 						//move everything forward
-						tree.copy(node, node + 2, tree.getMaxNumberOfNodes() - node);
+						tree.copy(node, node + 2, tree.getMaxNumberOfNodes() - node - 2);
 
 						//now: ... skip skip or  ... ... ...
 						//         node

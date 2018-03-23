@@ -23,7 +23,7 @@ public class SameOperator implements EfficientTreeReductionRule {
 					EfficientTreeUtils.removeChild(tree, node, child);
 
 					//correct the number of children of node
-					tree.setNumberOfChildren(node, tree.getNumberOfChildren(node) - numberOfChildren2);
+					tree.setNumberOfChildren(node, tree.getNumberOfChildren(node) + numberOfChildren2);
 					return true;
 				}
 			}

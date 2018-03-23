@@ -140,7 +140,7 @@ public class ConcurrentOptionalOrLogInfo {
 	}
 
 	/**
-	 * Find a pair of components A, B such that A => B and A is optional.
+	 * Find a pair of components A, B such that A implies B and A is optional.
 	 * 
 	 * @param traces
 	 * @return

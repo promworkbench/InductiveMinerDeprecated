@@ -62,7 +62,7 @@ public class EfficientTreeUtils {
 		tree.setNodeType(tree.getMaxNumberOfNodes() - 1, NodeType.skip);
 
 		//update the children counter of the parent
-		tree.setNumberOfChildren(parent, tree.getNumberOfChildren(parent) + 1);
+		tree.setNumberOfChildren(parent, tree.getNumberOfChildren(parent) - 1);
 	}
 
 	/**

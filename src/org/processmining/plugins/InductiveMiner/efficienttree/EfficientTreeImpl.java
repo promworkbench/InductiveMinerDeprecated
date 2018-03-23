@@ -132,7 +132,7 @@ public class EfficientTreeImpl implements EfficientTree {
 
 	@Override
 	public boolean isTau(int node) {
-		return tree[node] == NodeType.tau.code || tree[node] == NodeType.skip.code;
+		return tree[node] == NodeType.tau.code;
 	}
 
 	@Override
@@ -329,7 +329,9 @@ public class EfficientTreeImpl implements EfficientTree {
 
 	@Override
 	public NodeType getNodeType(int node) {
-		if (isTau(node)) {
+		if (isSkip(node)) {
+			return NodeType.skip;
+		} else if (isTau(node)) {
 			return NodeType.tau;
 		} else if (isActivity(node)) {
 			return NodeType.activity;

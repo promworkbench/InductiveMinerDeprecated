@@ -49,7 +49,7 @@ public class EfficientTreeReduce {
 	}
 
 	private static boolean reduceOne(EfficientTree tree, EfficientTreeReduceParameters reduceParameters)
-			throws UnknownTreeNodeException {
+			throws UnknownTreeNodeException, ReductionFailedException {
 		boolean changed = false;
 
 		for (int node = 0; node < tree.getMaxNumberOfNodes(); node++) {
@@ -72,10 +72,15 @@ public class EfficientTreeReduce {
 				}
 
 				for (EfficientTreeReductionRule rule : rules) {
-					changed = changed | rule.apply(tree, node);
-					//					if (!tree.isConsistent()) {
-					//						throw new ReductionFailedException();
-					//					}
+					boolean applied = rule.apply(tree, node);
+					changed = changed | applied;
+					if (!EfficientTreeUtils.isConsistent(tree)) {
+						throw new ReductionFailedException();
+					}
+					if (applied) {
+						System.out.println("  " + rule);
+						System.out.println("    " + tree);
+					}
 				}
 			}
 		}
