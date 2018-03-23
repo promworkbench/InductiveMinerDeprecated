@@ -399,4 +399,15 @@ public class EfficientTreeImpl implements EfficientTree {
 		System.arraycopy(tree, startB, tree, startA, lengthB);
 		System.arraycopy(temp, 0, tree, startA + lengthB, startB - startA);
 	}
+
+	public void setNodeType(int node,
+			org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeInt.NodeType operator) {
+		if (operator == org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeInt.NodeType.skip
+				|| operator == org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeInt.NodeType.tau
+				|| operator == org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeInt.NodeType.activity) {
+			tree[node] = operator.code;
+		} else {
+			tree[node] = operator.code - (childrenFactor * getNumberOfChildren(node));
+		}
+	}
 }

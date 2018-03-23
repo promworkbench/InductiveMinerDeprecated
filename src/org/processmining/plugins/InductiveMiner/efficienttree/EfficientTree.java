@@ -204,6 +204,8 @@ public interface EfficientTree extends Cloneable, EfficientTreeInt {
 	 */
 	public abstract void setNodeType(int node, NodeType nodeType);
 
+	public abstract void setNodeType(int node, EfficientTreeInt.NodeType nodeType);
+
 	/**
 	 * Please refer to EfficientTreeUtils for higher-level editing functions.
 	 * The usage of this method is not encouraged.
