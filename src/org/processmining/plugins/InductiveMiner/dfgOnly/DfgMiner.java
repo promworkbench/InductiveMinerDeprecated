@@ -6,7 +6,7 @@ import org.processmining.framework.packages.PackageManager.Canceller;
 import org.processmining.plugins.InductiveMiner.dfgOnly.dfgBaseCaseFinder.DfgBaseCaseFinder;
 import org.processmining.plugins.InductiveMiner.dfgOnly.dfgFallThrough.DfgFallThrough;
 import org.processmining.plugins.InductiveMiner.dfgOnly.dfgSplitter.DfgSplitter.DfgSplitResult;
-import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeInt;
+import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTree;
 import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTree2processTree;
 import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeReduce;
 import org.processmining.plugins.InductiveMiner.efficienttree.ProcessTree2EfficientTree;
@@ -39,7 +39,7 @@ public class DfgMiner {
 
 		//reduce the tree
 		try {
-			EfficientTreeInt efficientTree = ProcessTree2EfficientTree.convert(tree);
+			EfficientTree efficientTree = ProcessTree2EfficientTree.convert(tree);
 			EfficientTreeReduce.reduce(efficientTree);
 			tree = EfficientTree2processTree.convert(efficientTree);
 		} catch (Exception e) {

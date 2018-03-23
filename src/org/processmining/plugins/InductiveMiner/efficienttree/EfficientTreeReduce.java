@@ -6,11 +6,11 @@ import org.processmining.plugins.InductiveMiner.Pair;
 
 public class EfficientTreeReduce {
 
-	public static void reduce(EfficientTreeInt tree) throws ReductionFailedException, UnknownTreeNodeException {
+	public static void reduce(EfficientTree tree) throws ReductionFailedException, UnknownTreeNodeException {
 		reduce(tree, new EfficientTreeReduceParameters(false, false));
 	}
 
-	public static void reduce(EfficientTreeInt tree, EfficientTreeReduceParameters reduceParameters)
+	public static void reduce(EfficientTree tree, EfficientTreeReduceParameters reduceParameters)
 			throws ReductionFailedException, UnknownTreeNodeException {
 		//filter epsilon subtrees
 		{
@@ -48,7 +48,7 @@ public class EfficientTreeReduce {
 
 	}
 
-	private static boolean reduceOne(EfficientTreeInt tree, EfficientTreeReduceParameters reduceParameters)
+	private static boolean reduceOne(EfficientTree tree, EfficientTreeReduceParameters reduceParameters)
 			throws UnknownTreeNodeException {
 		boolean changed = false;
 
@@ -83,7 +83,7 @@ public class EfficientTreeReduce {
 		return changed;
 	}
 
-	public static Pair<BitSet, int[]> isSuperfluousTau(EfficientTreeInt tree, BitSet canProduceTau) {
+	public static Pair<BitSet, int[]> isSuperfluousTau(EfficientTree tree, BitSet canProduceTau) {
 		BitSet superfluous = new BitSet(tree.getMaxNumberOfNodes());
 		int[] parents = new int[tree.getMaxNumberOfNodes()];
 		for (int node = tree.getMaxNumberOfNodes() - 1; node >= 0; node--) {

@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 import org.processmining.framework.packages.PackageManager.Canceller;
 import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTree2processTree;
-import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeInt;
+import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTree;
 import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeReduce;
 import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeReduce.ReductionFailedException;
 import org.processmining.plugins.InductiveMiner.efficienttree.ProcessTree2EfficientTree;
@@ -72,7 +72,7 @@ public class Miner {
 		if (parameters.getReduceParameters() != null) {
 			try {
 				//reduce the tree
-				EfficientTreeInt eTree = ProcessTree2EfficientTree.convert(tree);
+				EfficientTree eTree = ProcessTree2EfficientTree.convert(tree);
 				EfficientTreeReduce.reduce(eTree, parameters.getReduceParameters());
 				tree = EfficientTree2processTree.convert(eTree);
 				debug("after reduction " + tree.getRoot(), minerState);

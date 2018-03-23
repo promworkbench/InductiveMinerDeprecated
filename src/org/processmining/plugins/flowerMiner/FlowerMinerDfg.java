@@ -10,8 +10,8 @@ import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTree;
 import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTree2processTree;
 import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeFactory;
 import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeImpl;
-import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeInt;
-import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeInt.NodeType;
+import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTree;
+import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTree.NodeType;
 import org.processmining.plugins.InductiveMiner.plugins.dialogs.IMMiningDialog;
 import org.processmining.processtree.ProcessTree;
 
@@ -25,7 +25,7 @@ public class FlowerMinerDfg {
 		return EfficientTree2processTree.convert(mine(dfg.getActivities()));
 	}
 
-	public static EfficientTreeInt mine(XEventClass[] vertices) {
+	public static EfficientTree mine(XEventClass[] vertices) {
 
 		//construct activity structures
 		String[] int2activity = new String[vertices.length];

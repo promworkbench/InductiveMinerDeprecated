@@ -4,7 +4,7 @@ import java.util.BitSet;
 
 public class EfficientTreeMetrics {
 
-	public static long getShortestTrace(EfficientTreeInt tree, int node) throws UnknownTreeNodeException {
+	public static long getShortestTrace(EfficientTree tree, int node) throws UnknownTreeNodeException {
 		if (tree.isActivity(node)) {
 			return 1;
 		} else if (tree.isTau(node)) {
@@ -36,7 +36,7 @@ public class EfficientTreeMetrics {
 	 * @return a bitset that denotes whether a node can only produce the empty
 	 *         trace.
 	 */
-	public static BitSet canOnlyProduceTau(EfficientTreeInt tree) {
+	public static BitSet canOnlyProduceTau(EfficientTree tree) {
 		BitSet result = new BitSet(tree.getMaxNumberOfNodes());
 		for (int node = tree.getMaxNumberOfNodes() - 1; node >= 0; node--) {
 			if (tree.isActivity(node)) {
@@ -54,7 +54,7 @@ public class EfficientTreeMetrics {
 		return result;
 	}
 
-	public static boolean canOnlyProduceTau(EfficientTreeInt tree, int node) throws UnknownTreeNodeException {
+	public static boolean canOnlyProduceTau(EfficientTree tree, int node) throws UnknownTreeNodeException {
 		if (tree.isActivity(node)) {
 			return false;
 		} else if (tree.isTau(node)) {
@@ -70,7 +70,7 @@ public class EfficientTreeMetrics {
 		throw new UnknownTreeNodeException();
 	}
 
-	public static BitSet canProduceTau(EfficientTreeInt tree) {
+	public static BitSet canProduceTau(EfficientTree tree) {
 		BitSet result = new BitSet(tree.getMaxNumberOfNodes());
 		for (int node = tree.getMaxNumberOfNodes() - 1; node >= 0; node--) {
 			if (tree.isActivity(node)) {
@@ -96,7 +96,7 @@ public class EfficientTreeMetrics {
 		return result;
 	}
 
-	public static boolean canProduceTau(EfficientTreeInt tree, int node) throws UnknownTreeNodeException {
+	public static boolean canProduceTau(EfficientTree tree, int node) throws UnknownTreeNodeException {
 		if (tree.isActivity(node)) {
 			return false;
 		} else if (tree.isTau(node)) {
@@ -127,7 +127,7 @@ public class EfficientTreeMetrics {
 	 * @return whether the given node can produce the trace -activity-
 	 * @throws UnknownTreeNodeException
 	 */
-	public static boolean canProduceSingleActivity(EfficientTreeInt tree, int node, int activity)
+	public static boolean canProduceSingleActivity(EfficientTree tree, int node, int activity)
 			throws UnknownTreeNodeException {
 		if (tree.isTau(node)) {
 			return false;
@@ -203,7 +203,7 @@ public class EfficientTreeMetrics {
 	 * @return whether each trace of the node has a length of at most one.
 	 * @throws UnknownTreeNodeException
 	 */
-	public static boolean traceLengthAtMostOne(EfficientTreeInt tree, int node) throws UnknownTreeNodeException {
+	public static boolean traceLengthAtMostOne(EfficientTree tree, int node) throws UnknownTreeNodeException {
 		if (tree.isActivity(node)) {
 			return true;
 		} else if (tree.isTau(node)) {
@@ -247,7 +247,7 @@ public class EfficientTreeMetrics {
 	 * @return whether each trace of the node has a length of at most zero.
 	 * @throws UnknownTreeNodeException
 	 */
-	public static boolean onlyEmptyTrace(EfficientTreeInt tree, int node) throws UnknownTreeNodeException {
+	public static boolean onlyEmptyTrace(EfficientTree tree, int node) throws UnknownTreeNodeException {
 		if (tree.isActivity(node)) {
 			return false;
 		} else if (tree.isTau(node)) {

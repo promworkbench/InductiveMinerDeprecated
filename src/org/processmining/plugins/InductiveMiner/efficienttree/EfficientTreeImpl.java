@@ -8,7 +8,7 @@ import org.processmining.plugins.InductiveMiner.Triple;
 import gnu.trove.map.TObjectIntMap;
 import gnu.trove.map.hash.TObjectIntHashMap;
 
-public class EfficientTreeImpl implements EfficientTreeInt {
+public class EfficientTreeImpl implements EfficientTree {
 
 	public static final int childrenFactor = 10;
 

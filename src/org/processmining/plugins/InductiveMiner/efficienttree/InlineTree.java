@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeInt.NodeType;
+import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTree.NodeType;
 
 import gnu.trove.map.TObjectIntMap;
 
@@ -150,7 +150,7 @@ public class InlineTree {
 	 * @param child1
 	 * @param children
 	 */
-	public static EfficientTreeInt interleaved(EfficientTree child1, EfficientTree... children) {
+	public static EfficientTree interleaved(EfficientTree child1, EfficientTree... children) {
 		return combineTrees(NodeType.interleaved, child1, children);
 	}
 
@@ -202,7 +202,7 @@ public class InlineTree {
 
 	private static EfficientTree combineTrees(NodeType operator, EfficientTree child1, EfficientTree... children) {
 		if ((child1 instanceof EfficientTreeImpl)) {
-			for (EfficientTreeInt child : children) {
+			for (EfficientTree child : children) {
 				if (!(child instanceof EfficientTreeImpl)) {
 					return combineTreesSlow(operator, child1, children);
 				}
@@ -216,7 +216,7 @@ public class InlineTree {
 
 	private static EfficientTree combineTreesSlow(NodeType operator, EfficientTree child1, EfficientTree... children) {
 		int size = child1.traverse(0);
-		for (EfficientTreeInt child : children) {
+		for (EfficientTree child : children) {
 			size += child.traverse(0);
 		}
 		int[] newTree = new int[size + 1];
@@ -242,7 +242,7 @@ public class InlineTree {
 		}
 
 		//copy the other children
-		for (EfficientTreeInt child : children) {
+		for (EfficientTree child : children) {
 			int sizeChild = child.traverse(0);
 
 			//copy the tree structure
@@ -293,7 +293,7 @@ public class InlineTree {
 		int[] newTree;
 		{
 			int size = child1.traverse(0);
-			for (EfficientTreeInt child : children) {
+			for (EfficientTree child : children) {
 				size += child.traverse(0);
 			}
 			newTree = new int[size + 1];

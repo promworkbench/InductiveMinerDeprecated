@@ -9,5 +9,5 @@ public interface EfficientTreeReductionRule {
 	 * @return whether the tree was changed or not
 	 * @throws UnknownTreeNodeException
 	 */
-	public boolean apply(EfficientTreeInt tree, int node) throws UnknownTreeNodeException;
+	public boolean apply(EfficientTree tree, int node) throws UnknownTreeNodeException;
 }

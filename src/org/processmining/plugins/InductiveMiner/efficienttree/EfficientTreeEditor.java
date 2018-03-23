@@ -41,7 +41,7 @@ public class EfficientTreeEditor extends JPanel {
 	 *            If not null, the message will be shown to the user and editing
 	 *            the model will be disabled.
 	 */
-	public EfficientTreeEditor(EfficientTreeInt tree, String message) {
+	public EfficientTreeEditor(EfficientTree tree, String message) {
 		setLayout(new BorderLayout());
 		setOpaque(false);
 
@@ -90,7 +90,7 @@ public class EfficientTreeEditor extends JPanel {
 							//remove error message
 							setErrorMessage(-1, null);
 
-							EfficientTreeInt newTree = result.getA();
+							EfficientTree newTree = result.getA();
 							final ActionEvent e2 = new ActionEvent(newTree, 0, "");
 							SwingUtilities.invokeLater(new Runnable() {
 								public void run() {
@@ -172,7 +172,7 @@ public class EfficientTreeEditor extends JPanel {
 	 * 
 	 * @param tree
 	 */
-	public void setTree(EfficientTreeInt tree) {
+	public void setTree(EfficientTree tree) {
 		assert (tree != null);
 		contentChangedFromController = true;
 		text.setText(EfficientTree2HumanReadableString.toString(tree));

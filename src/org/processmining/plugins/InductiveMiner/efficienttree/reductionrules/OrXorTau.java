@@ -1,14 +1,14 @@
 package org.processmining.plugins.InductiveMiner.efficienttree.reductionrules;
 
-import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeInt;
-import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeInt.NodeType;
+import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTree;
+import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTree.NodeType;
 import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeReductionRule;
 import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeUtils;
 import org.processmining.plugins.InductiveMiner.efficienttree.UnknownTreeNodeException;
 
 public class OrXorTau implements EfficientTreeReductionRule {
 
-	public boolean apply(EfficientTreeInt tree, int node) throws UnknownTreeNodeException {
+	public boolean apply(EfficientTree tree, int node) throws UnknownTreeNodeException {
 		if (tree.isOr(node)) {
 
 			//one child is an xor

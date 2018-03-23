@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.processmining.plugins.InductiveMiner.Triple;
-import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeInt.NodeType;
+import org.processmining.plugins.InductiveMiner.efficienttree.EfficientTree.NodeType;
 import org.processmining.plugins.InductiveMiner.mining.interleaved.Interleaved;
 import org.processmining.processtree.Block;
 import org.processmining.processtree.Block.And;
