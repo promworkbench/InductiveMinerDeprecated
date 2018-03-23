@@ -30,6 +30,7 @@ public class EfficientTreeImpl extends EfficientTree {
 	 *            be consistent with activity2int.
 	 */
 	public EfficientTreeImpl(int[] tree, TObjectIntMap<String> activity2int, String[] int2activity) {
+		super(tree, activity2int, int2activity); //TODO: remove
 		this.tree = tree;
 		this.activity2int = activity2int;
 		this.int2activity = int2activity;
