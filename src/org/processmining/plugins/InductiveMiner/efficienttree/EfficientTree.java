@@ -1,6 +1,7 @@
 package org.processmining.plugins.InductiveMiner.efficienttree;
 
 import gnu.trove.map.TObjectIntMap;
+import gnu.trove.map.hash.TObjectIntHashMap;
 
 /**
  * Class to store a process tree memory efficient and perform operations cpu
@@ -13,8 +14,13 @@ import gnu.trove.map.TObjectIntMap;
  * @author sleemans
  *
  */
-public interface EfficientTree extends Cloneable, EfficientTreeInt {
+public abstract class EfficientTree implements Cloneable, EfficientTreeInt {
 
+	//TODO: remove
+	public static TObjectIntMap<String> getEmptyActivity2int() {
+		return new TObjectIntHashMap<String>(8, 0.5f, -1);
+	}
+	
 	public static enum NodeType {
 		tau(-1), activity(0), xor(-2), sequence(-3), interleaved(-4), concurrent(-5), or(-6), loop(-7), skip(-8);
 
