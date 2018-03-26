@@ -6,7 +6,7 @@ import java.util.Iterator;
 import gnu.trove.map.TObjectIntMap;
 import gnu.trove.map.hash.TObjectIntHashMap;
 
-public class EfficientTreeImpl implements EfficientTree {
+public class EfficientTreeImpl extends EfficientTree {
 
 	public static final int childrenFactor = 10;
 
@@ -324,11 +324,11 @@ public class EfficientTreeImpl implements EfficientTree {
 		//return new EfficientTreeImpl(tree.clone(), new TObjectIntHashMap<String>(activity2int), int2activity.clone());
 
 		EfficientTreeImpl result = null;
-		try {
+		//try {
 			result = (EfficientTreeImpl) super.clone();
-		} catch (CloneNotSupportedException e) {
-			e.printStackTrace();
-		}
+		//} catch (CloneNotSupportedException e) {
+//			e.printStackTrace();
+	//	}
 		result.tree = tree.clone();
 		result.activity2int = new TObjectIntHashMap<String>(activity2int);
 		result.int2activity = int2activity.clone();

@@ -13,14 +13,17 @@ import gnu.trove.map.TObjectIntMap;
  * @author sleemans
  *
  */
-public interface EfficientTree extends Cloneable {
+public class EfficientTree implements Cloneable {
 
 	//TODO: remove
 	@Deprecated
-	public abstract int[] getTree();
+	public int[] getTree() {
+		return null;
+	}
 	
 	//TODO: remove
-	public void setNodeType(int node, EfficientTreeInt.NodeType operator);
+	public void setNodeType(int node, EfficientTreeInt.NodeType operator) {
+	}
 
 	public static enum NodeType {
 		tau(-1), activity(0), xor(-2), sequence(-3), interleaved(-4), concurrent(-5), or(-6), loop(-7), skip(-8);
@@ -36,20 +39,26 @@ public interface EfficientTree extends Cloneable {
 	 * 
 	 * @return A map from activity to index
 	 */
-	public TObjectIntMap<String> getActivity2int();
+	public TObjectIntMap<String> getActivity2int() {
+		return null;
+	}
 
 	/**
 	 * 
 	 * @return A map from index (not node!) to activity.
 	 */
-	public String[] getInt2activity();
+	public String[] getInt2activity() {
+		return null;
+	}
 
 	/**
 	 * 
 	 * @param node
 	 * @return the first node after node i.
 	 */
-	public int traverse(int node);
+	public int traverse(int node) {
+		return 0;
+	}
 
 	/**
 	 * 
@@ -57,21 +66,27 @@ public interface EfficientTree extends Cloneable {
 	 * @return the activity number denoted at position node. Only call if the
 	 *         node is an activity.
 	 */
-	public int getActivity(int node);
+	public int getActivity(int node) {
+		return 0;
+	}
 
 	/**
 	 * 
 	 * @param node
 	 * @return the type of operator. Only call if the node is an operator.
 	 */
-	public NodeType getNodeType(int node);
+	public NodeType getNodeType(int node) {
+		return null;
+	}
 
 	/**
 	 * 
 	 * @param node
 	 * @return whether the node at position i is an operator
 	 */
-	public boolean isOperator(int node);
+	public boolean isOperator(int node) {
+		return false;
+	}
 
 	/**
 	 *
@@ -79,77 +94,99 @@ public interface EfficientTree extends Cloneable {
 	 * @return the number of children of the current node. Only call when the
 	 *         node is an operator.
 	 */
-	public int getNumberOfChildren(int node);
+	public int getNumberOfChildren(int node) {
+		return 0;
+	}
 
 	/**
 	 * 
 	 * @param node
 	 * @return whether the given node is a tau
 	 */
-	public boolean isTau(int node);
+	public boolean isTau(int node) {
+		return false;
+	}
 
 	/**
 	 * 
 	 * @param node
 	 * @return whether the given node is an activity
 	 */
-	public boolean isActivity(int node);
+	public boolean isActivity(int node) {
+		return false;
+	}
 
 	/**
 	 * 
 	 * @param node
 	 * @return whether the given node is a sequence
 	 */
-	public boolean isSequence(int node);
+	public boolean isSequence(int node) {
+		return false;
+	}
 
 	/**
 	 * 
 	 * @param node
 	 * @return whether the given node is a xor
 	 */
-	public boolean isXor(int node);
+	public boolean isXor(int node) {
+		return false;
+	}
 
 	/**
 	 * 
 	 * @param node
 	 * @return whether the given node is an and
 	 */
-	public boolean isConcurrent(int node);
+	public boolean isConcurrent(int node) {
+		return false;
+	}
 
 	/**
 	 * 
 	 * @param node
 	 * @return whether the given node is an interleaved node
 	 */
-	public boolean isInterleaved(int node);
+	public boolean isInterleaved(int node) {
+		return false;
+	}
 
 	/**
 	 * 
 	 * @param node
 	 * @return whether the given node is a loop
 	 */
-	public boolean isLoop(int node);
+	public boolean isLoop(int node) {
+		return false;
+	}
 
 	/**
 	 * 
 	 * @param node
 	 * @return whether the given node is an or
 	 */
-	public boolean isOr(int node);
+	public boolean isOr(int node) {
+		return false;
+	}
 
 	/**
 	 * 
 	 * @param node
 	 * @return whether the given node is not a semantic node (doesn't exist)
 	 */
-	public boolean isSkip(int node);
+	public boolean isSkip(int node) {
+		return false;
+	}
 
 	/**
 	 * 
 	 * @param node
 	 * @return an iterable over all children of the given node.
 	 */
-	public Iterable<Integer> getChildren(final int node);
+	public Iterable<Integer> getChildren(final int node) {
+		return null;
+	}
 
 	/**
 	 * 
@@ -157,7 +194,9 @@ public interface EfficientTree extends Cloneable {
 	 * @return the activity name denoted at position node. Only call if the node
 	 *         is an activity.
 	 */
-	public String getActivityName(int node);
+	public String getActivityName(int node) {
+		return null;
+	}
 
 	/**
 	 * 
@@ -166,20 +205,26 @@ public interface EfficientTree extends Cloneable {
 	 *            (the first child has number 0)
 	 * @return the position of the #nrOfChild child of parent.
 	 */
-	public int getChild(int parent, int numberOfChild);
+	public int getChild(int parent, int numberOfChild) {
+		return 0;
+	}
 
 	/**
 	 * 
 	 * @return The index of the root of the tree.
 	 */
-	public int getRoot();
+	public int getRoot() {
+		return 0;
+	}
 
 	/**
 	 * 
 	 * @return a number that is larger or equal to the number of nodes in the
 	 *         tree.
 	 */
-	public int getMaxNumberOfNodes();
+	public int getMaxNumberOfNodes() {
+		return 0;
+	}
 
 	/**
 	 * Please refer to EfficientTreeUtils for higher-level editing functions.
@@ -196,7 +241,8 @@ public interface EfficientTree extends Cloneable {
 	 * @param length
 	 *            number of nodes to be moved
 	 */
-	public void copy(int srcPos, int destPos, int length);
+	public void copy(int srcPos, int destPos, int length) {
+	}
 
 	/**
 	 * Please refer to EfficientTreeUtils for higher-level editing functions.
@@ -209,7 +255,8 @@ public interface EfficientTree extends Cloneable {
 	 * @param node
 	 * @param nodeType
 	 */
-	public void setNodeType(int node, NodeType nodeType);
+	public void setNodeType(int node, NodeType nodeType) {
+	}
 
 	/**
 	 * Please refer to EfficientTreeUtils for higher-level editing functions.
@@ -221,7 +268,8 @@ public interface EfficientTree extends Cloneable {
 	 * @param node
 	 * @param numberOfChildren
 	 */
-	public void setNumberOfChildren(int node, int numberOfChildren);
+	public void setNumberOfChildren(int node, int numberOfChildren) {
+	}
 
 	/**
 	 * Please refer to EfficientTreeUtils for higher-level editing functions.
@@ -230,7 +278,8 @@ public interface EfficientTree extends Cloneable {
 	 * @param node
 	 * @param activity
 	 */
-	public void setNodeActivity(int node, int activity);
+	public void setNodeActivity(int node, int activity) {
+	}
 
 	/**
 	 * Please refer to EfficientTreeUtils for higher-level editing functions.
@@ -240,7 +289,8 @@ public interface EfficientTree extends Cloneable {
 	 * 
 	 * @param size
 	 */
-	public void setSize(int size);
+	public void setSize(int size) {
+	}
 
 	/**
 	 * Please refer to EfficientTreeUtils for higher-level editing functions.
@@ -252,7 +302,8 @@ public interface EfficientTree extends Cloneable {
 	 * @param startB
 	 * @param lengthB
 	 */
-	public void swap(int startA, int startB, int lengthB);
+	public void swap(int startA, int startB, int lengthB) {
+	}
 
 	/**
 	 * Please refer to EfficientTreeUtils for higher-level editing functions.
@@ -266,7 +317,16 @@ public interface EfficientTree extends Cloneable {
 	 * @param end
 	 *            The index after the end of the last node.
 	 */
-	public void reorderNodes(Integer[] nodes, int end);
+	public void reorderNodes(Integer[] nodes, int end) {
+	}
 
-	public EfficientTree clone();
+	public EfficientTree clone() {
+		try {
+			return (EfficientTree) super.clone();
+		} catch (CloneNotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 }
