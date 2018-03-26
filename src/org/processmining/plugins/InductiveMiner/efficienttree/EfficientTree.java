@@ -20,21 +20,22 @@ public class EfficientTree implements Cloneable {
 	//TODO: remove
 	@Deprecated
 	public int[] getTree() {
-		return null;
+		throw new RuntimeException("please update your packages");
 	}
-	
+
 	//TODO: remove
 	public void setNodeType(int node, EfficientTreeInt.NodeType operator) {
+		throw new RuntimeException("please update your packages");
 	}
-	
+
 	//TODO: remove
 	public EfficientTree(ProcessTree tree) {
-		
+
 	}
-	
+
 	//TODO: remove
 	public EfficientTree() {
-		
+
 	}
 
 	public static enum NodeType {
@@ -52,7 +53,7 @@ public class EfficientTree implements Cloneable {
 	 * @return A map from activity to index
 	 */
 	public TObjectIntMap<String> getActivity2int() {
-		return null;
+		throw new RuntimeException("please update your packages");
 	}
 
 	/**
@@ -60,7 +61,7 @@ public class EfficientTree implements Cloneable {
 	 * @return A map from index (not node!) to activity.
 	 */
 	public String[] getInt2activity() {
-		return null;
+		throw new RuntimeException("please update your packages");
 	}
 
 	/**
@@ -69,7 +70,7 @@ public class EfficientTree implements Cloneable {
 	 * @return the first node after node i.
 	 */
 	public int traverse(int node) {
-		return 0;
+		throw new RuntimeException("please update your packages");
 	}
 
 	/**
@@ -79,7 +80,7 @@ public class EfficientTree implements Cloneable {
 	 *         node is an activity.
 	 */
 	public int getActivity(int node) {
-		return 0;
+		throw new RuntimeException("please update your packages");
 	}
 
 	/**
@@ -88,7 +89,7 @@ public class EfficientTree implements Cloneable {
 	 * @return the type of operator. Only call if the node is an operator.
 	 */
 	public NodeType getNodeType(int node) {
-		return null;
+		throw new RuntimeException("please update your packages");
 	}
 
 	/**
@@ -97,7 +98,7 @@ public class EfficientTree implements Cloneable {
 	 * @return whether the node at position i is an operator
 	 */
 	public boolean isOperator(int node) {
-		return false;
+		throw new RuntimeException("please update your packages");
 	}
 
 	/**
@@ -107,7 +108,7 @@ public class EfficientTree implements Cloneable {
 	 *         node is an operator.
 	 */
 	public int getNumberOfChildren(int node) {
-		return 0;
+		throw new RuntimeException("please update your packages");
 	}
 
 	/**
@@ -116,7 +117,7 @@ public class EfficientTree implements Cloneable {
 	 * @return whether the given node is a tau
 	 */
 	public boolean isTau(int node) {
-		return false;
+		throw new RuntimeException("please update your packages");
 	}
 
 	/**
@@ -125,7 +126,7 @@ public class EfficientTree implements Cloneable {
 	 * @return whether the given node is an activity
 	 */
 	public boolean isActivity(int node) {
-		return false;
+		throw new RuntimeException("please update your packages");
 	}
 
 	/**
@@ -134,7 +135,7 @@ public class EfficientTree implements Cloneable {
 	 * @return whether the given node is a sequence
 	 */
 	public boolean isSequence(int node) {
-		return false;
+		throw new RuntimeException("please update your packages");
 	}
 
 	/**
@@ -143,7 +144,7 @@ public class EfficientTree implements Cloneable {
 	 * @return whether the given node is a xor
 	 */
 	public boolean isXor(int node) {
-		return false;
+		throw new RuntimeException("please update your packages");
 	}
 
 	/**
@@ -152,7 +153,7 @@ public class EfficientTree implements Cloneable {
 	 * @return whether the given node is an and
 	 */
 	public boolean isConcurrent(int node) {
-		return false;
+		throw new RuntimeException("please update your packages");
 	}
 
 	/**
@@ -161,7 +162,7 @@ public class EfficientTree implements Cloneable {
 	 * @return whether the given node is an interleaved node
 	 */
 	public boolean isInterleaved(int node) {
-		return false;
+		throw new RuntimeException("please update your packages");
 	}
 
 	/**
@@ -170,7 +171,7 @@ public class EfficientTree implements Cloneable {
 	 * @return whether the given node is a loop
 	 */
 	public boolean isLoop(int node) {
-		return false;
+		throw new RuntimeException("please update your packages");
 	}
 
 	/**
@@ -179,7 +180,7 @@ public class EfficientTree implements Cloneable {
 	 * @return whether the given node is an or
 	 */
 	public boolean isOr(int node) {
-		return false;
+		throw new RuntimeException("please update your packages");
 	}
 
 	/**
@@ -188,7 +189,7 @@ public class EfficientTree implements Cloneable {
 	 * @return whether the given node is not a semantic node (doesn't exist)
 	 */
 	public boolean isSkip(int node) {
-		return false;
+		throw new RuntimeException("please update your packages");
 	}
 
 	/**
@@ -197,7 +198,7 @@ public class EfficientTree implements Cloneable {
 	 * @return an iterable over all children of the given node.
 	 */
 	public Iterable<Integer> getChildren(final int node) {
-		return null;
+		throw new RuntimeException("please update your packages");
 	}
 
 	/**
@@ -207,7 +208,7 @@ public class EfficientTree implements Cloneable {
 	 *         is an activity.
 	 */
 	public String getActivityName(int node) {
-		return null;
+		throw new RuntimeException("please update your packages");
 	}
 
 	/**
@@ -218,7 +219,7 @@ public class EfficientTree implements Cloneable {
 	 * @return the position of the #nrOfChild child of parent.
 	 */
 	public int getChild(int parent, int numberOfChild) {
-		return 0;
+		throw new RuntimeException("please update your packages");
 	}
 
 	/**
@@ -226,7 +227,7 @@ public class EfficientTree implements Cloneable {
 	 * @return The index of the root of the tree.
 	 */
 	public int getRoot() {
-		return 0;
+		throw new RuntimeException("please update your packages");
 	}
 
 	/**
@@ -235,7 +236,7 @@ public class EfficientTree implements Cloneable {
 	 *         tree.
 	 */
 	public int getMaxNumberOfNodes() {
-		return 0;
+		throw new RuntimeException("please update your packages");
 	}
 
 	/**
@@ -254,6 +255,7 @@ public class EfficientTree implements Cloneable {
 	 *            number of nodes to be moved
 	 */
 	public void copy(int srcPos, int destPos, int length) {
+		throw new RuntimeException("please update your packages");
 	}
 
 	/**
@@ -268,6 +270,7 @@ public class EfficientTree implements Cloneable {
 	 * @param nodeType
 	 */
 	public void setNodeType(int node, NodeType nodeType) {
+		throw new RuntimeException("please update your packages");
 	}
 
 	/**
@@ -281,6 +284,7 @@ public class EfficientTree implements Cloneable {
 	 * @param numberOfChildren
 	 */
 	public void setNumberOfChildren(int node, int numberOfChildren) {
+		throw new RuntimeException("please update your packages");
 	}
 
 	/**
@@ -291,6 +295,7 @@ public class EfficientTree implements Cloneable {
 	 * @param activity
 	 */
 	public void setNodeActivity(int node, int activity) {
+		throw new RuntimeException("please update your packages");
 	}
 
 	/**
@@ -302,6 +307,7 @@ public class EfficientTree implements Cloneable {
 	 * @param size
 	 */
 	public void setSize(int size) {
+		throw new RuntimeException("please update your packages");
 	}
 
 	/**
@@ -315,6 +321,7 @@ public class EfficientTree implements Cloneable {
 	 * @param lengthB
 	 */
 	public void swap(int startA, int startB, int lengthB) {
+		throw new RuntimeException("please update your packages");
 	}
 
 	/**
@@ -330,6 +337,7 @@ public class EfficientTree implements Cloneable {
 	 *            The index after the end of the last node.
 	 */
 	public void reorderNodes(Integer[] nodes, int end) {
+		throw new RuntimeException("please update your packages");
 	}
 
 	public EfficientTree clone() {
