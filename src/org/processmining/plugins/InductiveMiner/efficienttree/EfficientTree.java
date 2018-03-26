@@ -1,5 +1,7 @@
 package org.processmining.plugins.InductiveMiner.efficienttree;
 
+import org.processmining.processtree.ProcessTree;
+
 import gnu.trove.map.TObjectIntMap;
 
 /**
@@ -23,6 +25,16 @@ public class EfficientTree implements Cloneable {
 	
 	//TODO: remove
 	public void setNodeType(int node, EfficientTreeInt.NodeType operator) {
+	}
+	
+	//TODO: remove
+	public EfficientTree(ProcessTree tree) {
+		
+	}
+	
+	//TODO: remove
+	public EfficientTree() {
+		
 	}
 
 	public static enum NodeType {
