@@ -208,8 +208,6 @@ public interface EfficientTree extends Cloneable, EfficientTreeInt {
 	 */
 	public void setNodeType(int node, NodeType nodeType);
 
-	public void setNodeType(int node, EfficientTreeInt.NodeType nodeType);
-
 	/**
 	 * Please refer to EfficientTreeUtils for higher-level editing functions.
 	 * The usage of this method is not encouraged.
@@ -253,5 +251,19 @@ public interface EfficientTree extends Cloneable, EfficientTreeInt {
 	 */
 	public void swap(int startA, int startB, int lengthB);
 
-	public EfficientTree clone() throws CloneNotSupportedException;
+	/**
+	 * Please refer to EfficientTreeUtils for higher-level editing functions.
+	 * The usage of this method is not encouraged.
+	 * 
+	 * Reorders nodes
+	 * 
+	 * @param nodes
+	 *            A consecutive but possibly shuffled list of indices, in which
+	 *            to reorder nodes.
+	 * @param end
+	 *            The index after the end of the last node.
+	 */
+	public void reorderNodes(Integer[] nodes, int end);
+
+	public EfficientTree clone();
 }

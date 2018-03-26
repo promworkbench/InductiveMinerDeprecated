@@ -319,16 +319,20 @@ public class EfficientTreeImpl implements EfficientTree {
 	}
 
 	@Override
-	public EfficientTree clone() throws CloneNotSupportedException {
+	public EfficientTree clone() {
 		//TODO: remove
-		return new EfficientTreeImpl(tree.clone(), new TObjectIntHashMap<String>(activity2int), int2activity.clone());
+		//return new EfficientTreeImpl(tree.clone(), new TObjectIntHashMap<String>(activity2int), int2activity.clone());
 
-		//		EfficientTreeImpl result = (EfficientTreeImpl) super.clone();
-		//		result.tree = tree.clone();
-		//		result.activity2int = new TObjectIntHashMap<String>(activity2int);
-		//		result.int2activity = int2activity.clone();
-		//		return result;
-		//		return null;
+		EfficientTreeImpl result = null;
+		try {
+			result = (EfficientTreeImpl) super.clone();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+		result.tree = tree.clone();
+		result.activity2int = new TObjectIntHashMap<String>(activity2int);
+		result.int2activity = int2activity.clone();
+		return result;
 	}
 
 	@Override
@@ -404,14 +408,37 @@ public class EfficientTreeImpl implements EfficientTree {
 		System.arraycopy(temp, 0, tree, startA + lengthB, startB - startA);
 	}
 
-	public void setNodeType(int node,
-			org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeInt.NodeType operator) {
-		if (operator == org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeInt.NodeType.skip
-				|| operator == org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeInt.NodeType.tau
-				|| operator == org.processmining.plugins.InductiveMiner.efficienttree.EfficientTreeInt.NodeType.activity) {
-			tree[node] = operator.code;
-		} else {
-			tree[node] = operator.code - (childrenFactor * getNumberOfChildren(node));
+	@Override
+	public void reorderNodes(Integer[] nodes, int end) {
+		//create a temp array to hold the blocks
+		int min = tree.length;
+		for (int i = 0; i < nodes.length; i++) {
+			min = Math.min(min, nodes[i]);
 		}
+		int length = end - min;
+		int[] temp = new int[length];
+
+		//copy the nodes to the temp array
+		int currentlyAtInTemp = 0;
+		for (int node : nodes) {
+			/*
+			 * find where this node stops (we could do it with traverse, but
+			 * this is probably more efficient and become robust against "nodes"
+			 * that span multiple nodes
+			 * 
+			 */
+			int nodeEnd = end;
+			for (int i = 0; i < nodes.length; i++) {
+				if (nodes[i] > node && nodes[i] < nodeEnd) {
+					nodeEnd = nodes[i];
+				}
+			}
+
+			System.arraycopy(tree, node, temp, currentlyAtInTemp, nodeEnd - node);
+
+			currentlyAtInTemp += nodeEnd - node;
+		}
+
+		System.arraycopy(temp, 0, tree, min, temp.length);
 	}
 }

@@ -1,6 +1,8 @@
 package org.processmining.plugins.InductiveMiner.plugins;
 
 import org.deckfour.xes.model.XLog;
+import org.processmining.acceptingpetrinet.models.AcceptingPetriNet;
+import org.processmining.acceptingpetrinet.models.impl.AcceptingPetriNetFactory;
 import org.processmining.framework.packages.PackageManager.Canceller;
 import org.processmining.framework.plugin.PluginContext;
 import org.processmining.models.connections.petrinets.behavioral.FinalMarkingConnection;
@@ -9,6 +11,7 @@ import org.processmining.models.graphbased.directed.petrinet.Petrinet;
 import org.processmining.models.semantics.petrinet.Marking;
 import org.processmining.plugins.InductiveMiner.mining.MiningParameters;
 import org.processmining.plugins.InductiveMiner.mining.MiningParametersIM;
+import org.processmining.plugins.InductiveMiner.reduceacceptingpetrinet.ReduceAcceptingPetriNetKeepLanguage;
 import org.processmining.processtree.ProcessTree;
 import org.processmining.processtree.conversion.ProcessTree2Petrinet;
 import org.processmining.processtree.conversion.ProcessTree2Petrinet.InvalidProcessTreeException;
@@ -50,7 +53,13 @@ public class IMPetriNet {
 		} catch (InvalidProcessTreeException e) {
 			e.printStackTrace();
 		}
-		return new Object[] { pn.petrinet, pn.initialMarking, pn.finalMarking };
+
+		AcceptingPetriNet a = AcceptingPetriNetFactory.createAcceptingPetriNet(pn.petrinet, pn.initialMarking,
+				pn.finalMarking);
+
+		ReduceAcceptingPetriNetKeepLanguage.reduce(a, canceller);
+
+		return new Object[] { a.getNet(), a.getInitialMarking(), a.getFinalMarkings().iterator().next() };
 	}
 
 }

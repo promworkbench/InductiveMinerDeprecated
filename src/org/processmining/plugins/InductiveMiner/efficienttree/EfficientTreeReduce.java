@@ -72,15 +72,10 @@ public class EfficientTreeReduce {
 				}
 
 				for (EfficientTreeReductionRule rule : rules) {
-					boolean applied = rule.apply(tree, node);
-					changed = changed | applied;
-					if (!EfficientTreeUtils.isConsistent(tree)) {
-						throw new ReductionFailedException();
-					}
-					if (applied) {
-						System.out.println("  " + rule);
-						System.out.println("    " + tree);
-					}
+					changed = changed | rule.apply(tree, node);;
+//					if (!EfficientTreeUtils.isConsistent(tree)) {
+//						throw new ReductionFailedException();
+//					}
 				}
 			}
 		}
