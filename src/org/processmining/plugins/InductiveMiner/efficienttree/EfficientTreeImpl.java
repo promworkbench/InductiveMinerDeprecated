@@ -379,6 +379,15 @@ public class EfficientTreeImpl implements EfficientTree {
 		}
 	}
 
+	public void setNodeType(int node, EfficientTreeInt.NodeType operator) {
+		if (operator == EfficientTreeInt.NodeType.skip || operator == EfficientTreeInt.NodeType.tau
+				|| operator == EfficientTreeInt.NodeType.activity) {
+			tree[node] = operator.code;
+		} else {
+			tree[node] = operator.code - (childrenFactor * getNumberOfChildren(node));
+		}
+	}
+
 	@Override
 	public void setNodeActivity(int node, int activity) {
 		tree[node] = activity;

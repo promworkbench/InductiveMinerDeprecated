@@ -13,11 +13,14 @@ import gnu.trove.map.TObjectIntMap;
  * @author sleemans
  *
  */
-public interface EfficientTree extends Cloneable, EfficientTreeInt {
+public interface EfficientTree extends Cloneable {
 
 	//TODO: remove
 	@Deprecated
 	public abstract int[] getTree();
+	
+	//TODO: remove
+	public void setNodeType(int node, EfficientTreeInt.NodeType operator);
 
 	public static enum NodeType {
 		tau(-1), activity(0), xor(-2), sequence(-3), interleaved(-4), concurrent(-5), or(-6), loop(-7), skip(-8);
