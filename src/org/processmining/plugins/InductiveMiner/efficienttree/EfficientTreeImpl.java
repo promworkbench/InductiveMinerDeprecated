@@ -118,6 +118,9 @@ public class EfficientTreeImpl implements EfficientTree {
 
 	@Override
 	public int getNumberOfChildren(int node) {
+		if (!isOperator(node)) {
+			return 0;
+		}
 		return tree[node] / -childrenFactor;
 	}
 

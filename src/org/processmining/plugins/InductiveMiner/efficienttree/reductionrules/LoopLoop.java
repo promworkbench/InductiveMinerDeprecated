@@ -25,13 +25,22 @@ public class LoopLoop implements EfficientTreeReductionRule {
 
 					//remove the exit tau
 					EfficientTreeUtils.removeChild(tree, oldBody, tau);
+					
+					//now:
+					//loop loop A B C D
 
 					//move A one position forward (over the nested loop); leave B and further in place
 					tree.copy(A, A - 1, B - A);
+					
+					//now:
+					//loop A . B C D
 
 					//set the XOR (notice that B has not moved)
 					tree.setNodeType(B - 1, NodeType.xor);
 					tree.setNumberOfChildren(B - 1, 2);
+					
+					//now:
+					//loop A xor2 B C D
 
 					return true;
 				}
