@@ -73,9 +73,9 @@ public class EfficientTreeReduce {
 
 				for (EfficientTreeReductionRule rule : rules) {
 					changed = changed | rule.apply(tree, node);;
-					if (!EfficientTreeUtils.isConsistent(tree)) {
-						throw new ReductionFailedException();
-					}
+//					if (!EfficientTreeUtils.isConsistent(tree)) {
+//						throw new ReductionFailedException();
+//					}
 				}
 			}
 		}
