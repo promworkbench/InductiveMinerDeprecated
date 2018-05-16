@@ -147,7 +147,7 @@ public class MurataFSPkeepLanguage {
 		}
 		//the markings might have changed, so we need to re-index the final markings
 		anet.setFinalMarkings(new THashSet<>(anet.getFinalMarkings()));
-
+		
 		return reduced;
 	}
 }

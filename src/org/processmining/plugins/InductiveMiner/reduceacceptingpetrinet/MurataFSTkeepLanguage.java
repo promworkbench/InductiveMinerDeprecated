@@ -34,7 +34,7 @@ public class MurataFSTkeepLanguage {
 		for (Place place : net.getPlaces()) {
 
 			if (canceller.isCancelled()) {
-				return true;
+				return false;
 			}
 
 			/*
@@ -118,46 +118,26 @@ public class MurataFSTkeepLanguage {
 			}
 
 			/*
-			 * At least one of the transitions should be invisible
+			 * The output transition should be invisible
 			 */
-			if (!inputTransition.isInvisible() && !outputTransition.isInvisible()) {
+			if (!outputTransition.isInvisible()) {
 				continue;
 			}
 
-			if (outputTransition.isInvisible()) {
+			Collection<PetrinetEdge<? extends PetrinetNode, ? extends PetrinetNode>> preset = net
+					.getInEdges(inputTransition);
+			MurataUtils.resetPlace(anet.getInitialMarking(), place);
 
-				/*
-				 * Transfer tokens from place to postset of output transition.
-				 * Also, transfer outgoing edges from output transition to input
-				 * transition.
-				 */
-				Collection<PetrinetEdge<? extends PetrinetNode, ? extends PetrinetNode>> postset = net
-						.getOutEdges(outputTransition);
-				MurataUtils.resetPlace(anet.getInitialMarking(), place);
-				for (PetrinetEdge<? extends PetrinetNode, ? extends PetrinetNode> transferEdge : postset) {
-					if (transferEdge instanceof Arc) {
-						Arc transferArc = (Arc) transferEdge;
-						MurataUtils.addArc(net, inputTransition, transferArc.getTarget(), transferArc.getWeight());
-					}
+			for (PetrinetEdge<? extends PetrinetNode, ? extends PetrinetNode> transferEdge : preset) {
+				if (transferEdge instanceof Arc) {
+					Arc transferArc = (Arc) transferEdge;
+					MurataUtils.addArc(net, transferArc.getSource(), outputTransition, transferArc.getWeight());
 				}
-				net.removePlace(place);
-				net.removeTransition(outputTransition);
-				return true; // Removed a place and a transition.
-			} else if (inputTransition.isInvisible()) {
-				Collection<PetrinetEdge<? extends PetrinetNode, ? extends PetrinetNode>> preset = net
-						.getInEdges(inputTransition);
-				MurataUtils.resetPlace(anet.getInitialMarking(), place);
-				
-				for (PetrinetEdge<? extends PetrinetNode, ? extends PetrinetNode> transferEdge : preset) {
-					if (transferEdge instanceof Arc) {
-						Arc transferArc = (Arc) transferEdge;
-						MurataUtils.addArc(net, transferArc.getSource(), outputTransition, transferArc.getWeight());
-					}
-				}
-				net.removePlace(place);
-				net.removeTransition(inputTransition);
-				return true; // Removed a place and a transition.
 			}
+			net.removePlace(place);
+			net.removeTransition(inputTransition);
+			return true; // Removed a place and a transition.
+
 		}
 
 		return false;
