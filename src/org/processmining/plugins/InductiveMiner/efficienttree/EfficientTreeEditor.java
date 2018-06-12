@@ -161,7 +161,7 @@ public class EfficientTreeEditor extends JPanel {
 			errorMessage.setOpaque(true);
 			text.addLineHighlight(line, errorColour);
 		} else {
-			errorMessage.setText("Operators: xor, sequence, concurrent, interleaved, loop & or.");
+			errorMessage.setText("Operators: tau, xor, sequence, concurrent, interleaved, loop & or.");
 			errorMessage.setOpaque(false);
 			text.removeAllLineHighlights();
 		}
