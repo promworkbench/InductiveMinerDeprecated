@@ -1,10 +1,12 @@
 package org.processmining.plugins.InductiveMiner.dfgOnly.plugins;
 
 import org.deckfour.uitopia.api.event.TaskListener.InteractionResult;
+import org.jbpt.petri.Marking;
 import org.processmining.contexts.uitopia.UIPluginContext;
 import org.processmining.contexts.uitopia.annotations.UITopiaVariant;
 import org.processmining.framework.plugin.annotations.Plugin;
 import org.processmining.framework.plugin.annotations.PluginVariant;
+import org.processmining.models.graphbased.directed.petrinet.Petrinet;
 import org.processmining.plugins.InductiveMiner.dfgOnly.Dfg;
 import org.processmining.plugins.InductiveMiner.dfgOnly.plugins.dialogs.IMdMiningDialog;
 import org.processmining.plugins.InductiveMiner.plugins.dialogs.IMMiningDialog;
@@ -28,8 +30,8 @@ public class IMd {
 	}
 
 	@Plugin(name = "Mine Petri net with Inductive Miner - directly follows", returnLabels = { "Petri net",
-			"initial marking", "final marking" }, returnTypes = {
-					ProcessTree.class }, parameterLabels = { "Direclty-follows graph" }, userAccessible = true)
+			"initial marking", "final marking" }, returnTypes = { Petrinet.class, Marking.class,
+					Marking.class }, parameterLabels = { "Direclty-follows graph" }, userAccessible = true)
 	@UITopiaVariant(affiliation = IMMiningDialog.affiliation, author = IMMiningDialog.author, email = IMMiningDialog.email)
 	@PluginVariant(variantLabel = "Mine a Process Tree", requiredParameterLabels = { 0 })
 	public Object[] minePetriNet(UIPluginContext context, Dfg dfg) {

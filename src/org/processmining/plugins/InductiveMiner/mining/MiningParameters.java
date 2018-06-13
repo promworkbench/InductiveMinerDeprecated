@@ -39,7 +39,7 @@ public abstract class MiningParameters {
 	protected MiningParameters() {
 		classifier = getDefaultClassifier();
 		setLifeCycleClassifier(getDefaultLifeCycleClassifier());
-		debug = false;
+		debug = true;
 		repairLifeCycle = false;
 		processStartEndComplete = false;
 		useMultiThreading = true;
