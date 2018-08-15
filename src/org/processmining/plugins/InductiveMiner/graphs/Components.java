@@ -94,14 +94,17 @@ public class Components<V> {
 	 */
 	public void mergeComponents(int componentA, int componentB) {
 		if (componentA != componentB) {
-			boolean found = false;
+			boolean Apresent = false;
+			boolean Bpresent = false;
 			for (int i = 0; i < components.length; i++) {
 				if (components[i] == componentA) {
 					components[i] = componentB;
-					found = true;
+					Apresent = true;
+				} else if (components[i] == componentB) {
+					Bpresent = true;
 				}
 			}
-			if (found) {
+			if (Apresent && Bpresent) {
 				numberOfComponents--;
 			}
 		}
