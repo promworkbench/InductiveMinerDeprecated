@@ -8,8 +8,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.deckfour.xes.classification.XEventClass;
 import org.processmining.plugins.InductiveMiner.Sets;
+import org.processmining.plugins.InductiveMiner.dfgOnly.Dfg;
 import org.processmining.plugins.InductiveMiner.dfgOnly.dfgCutFinder.DfgCutFinder;
 import org.processmining.plugins.InductiveMiner.dfgOnly.dfgCutFinder.DfgCutFinderSimple;
+import org.processmining.plugins.InductiveMiner.dfgOnly.dfgSplitter.DfgSplitter.DfgSplitResult;
+import org.processmining.plugins.InductiveMiner.dfgOnly.dfgSplitter.SimpleDfgSplitter;
 import org.processmining.plugins.InductiveMiner.jobList.JobList;
 import org.processmining.plugins.InductiveMiner.jobList.JobListConcurrent;
 import org.processmining.plugins.InductiveMiner.mining.IMLogInfo;
@@ -86,14 +89,18 @@ public class FallThroughActivityConcurrent implements FallThrough {
 
 						Miner.debug("  try concurrent cut " + cut, minerState);
 
-						//see if a cut applies
+						//create a sub-dfg
+						DfgSplitResult subDfgs = new SimpleDfgSplitter().split(logInfo.getDfg(), cut, null);
+						Dfg subDfg = subDfgs.subDfgs.get(1);
+
+						//see if a cut applies in the sub-dfg
 						//for performance reasons, only on the directly follows graph
-						Cut cut2 = dfgCutFinder.findCut(logInfo.getDfg(), null);
-						
+						Cut cut2 = dfgCutFinder.findCut(subDfg, null);
+
 						if (minerState.isCancelled()) {
 							return;
 						}
-						
+
 						if (cut2 != null && cut2.isValid()) {
 							//see if we are first
 							boolean oldFound = found.getAndSet(true);
