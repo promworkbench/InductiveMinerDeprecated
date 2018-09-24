@@ -26,7 +26,7 @@ import gnu.trove.set.hash.THashSet;
  *
  */
 
-public class MurataFSPkeepLanguage {
+public class MurataFSP1keepLanguage {
 
 	public static boolean reduce(AcceptingPetriNet anet, Canceller canceller) {
 		boolean reduced = false;
