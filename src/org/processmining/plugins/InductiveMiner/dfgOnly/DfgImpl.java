@@ -119,7 +119,7 @@ public class DfgImpl implements Dfg {
 	@Override
 	public void addStartActivity(XEventClass activity, long cardinality) {
 		int activityIndex = addActivity(activity);
-		addStartActivity(activityIndex, activityIndex);
+		addStartActivity(activityIndex, cardinality);
 	}
 
 	@Override
