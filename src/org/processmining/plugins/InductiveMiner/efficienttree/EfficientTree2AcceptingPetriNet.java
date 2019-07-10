@@ -196,7 +196,6 @@ public class EfficientTree2AcceptingPetriNet {
 
 		Transition end = petriNet.addTransition("tau end");
 		end.setInvisible(true);
-		petriNet.addArc(source, end);
 		petriNet.addArc(mileStone, end);
 		petriNet.addArc(end, sink);
 
