@@ -1,12 +1,12 @@
 package org.processmining.plugins.InductiveMiner.dfgOnly.plugins;
 
 import org.deckfour.uitopia.api.event.TaskListener.InteractionResult;
-import org.jbpt.petri.Marking;
 import org.processmining.contexts.uitopia.UIPluginContext;
 import org.processmining.contexts.uitopia.annotations.UITopiaVariant;
 import org.processmining.framework.plugin.annotations.Plugin;
 import org.processmining.framework.plugin.annotations.PluginVariant;
 import org.processmining.models.graphbased.directed.petrinet.Petrinet;
+import org.processmining.models.semantics.petrinet.Marking;
 import org.processmining.plugins.InductiveMiner.dfgOnly.Dfg;
 import org.processmining.plugins.InductiveMiner.dfgOnly.plugins.dialogs.IMdMiningDialog;
 import org.processmining.plugins.InductiveMiner.plugins.dialogs.IMMiningDialog;
