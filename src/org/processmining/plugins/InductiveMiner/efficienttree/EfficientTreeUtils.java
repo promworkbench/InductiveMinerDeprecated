@@ -195,4 +195,42 @@ public class EfficientTreeUtils {
 			}
 		};
 	}
+
+	public static Iterable<Integer> getAllActivityLeaves(EfficientTree tree) {
+		return getAllActivityLeaves(tree, tree.getRoot());
+	}
+
+	public static Iterable<Integer> getAllActivityLeaves(final EfficientTree tree, final int child) {
+		return new Iterable<Integer>() {
+			public Iterator<Integer> iterator() {
+				return new Iterator<Integer>() {
+					int now = child - 1;
+
+					public int findNext() {
+						int next = now + 1;
+						while (next < tree.getMaxNumberOfNodes() && tree.isSkip(next) && !tree.isActivity(next)) {
+							next++;
+						}
+						if (next == tree.getMaxNumberOfNodes()) {
+							return -1;
+						}
+						return next;
+					}
+
+					public Integer next() {
+						now = findNext();
+						return now;
+					}
+
+					public boolean hasNext() {
+						return findNext() != -1;
+					}
+
+					public void remove() {
+
+					}
+				};
+			}
+		};
+	}
 }
