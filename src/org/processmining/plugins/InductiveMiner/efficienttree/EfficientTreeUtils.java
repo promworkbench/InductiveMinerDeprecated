@@ -208,7 +208,7 @@ public class EfficientTreeUtils {
 
 					public int findNext() {
 						int next = now + 1;
-						while (next < tree.getMaxNumberOfNodes() && tree.isSkip(next) && !tree.isActivity(next)) {
+						while (next < tree.getMaxNumberOfNodes() && !tree.isActivity(next)) {
 							next++;
 						}
 						if (next == tree.getMaxNumberOfNodes()) {
