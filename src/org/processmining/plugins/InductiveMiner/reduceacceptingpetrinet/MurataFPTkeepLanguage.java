@@ -1,8 +1,6 @@
 package org.processmining.plugins.InductiveMiner.reduceacceptingpetrinet;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
 
 import org.processmining.acceptingpetrinet.models.AcceptingPetriNet;
 import org.processmining.framework.packages.PackageManager.Canceller;
@@ -27,8 +25,6 @@ public class MurataFPTkeepLanguage {
 	public static boolean reduce(AcceptingPetriNet anet, Canceller canceller) {
 		Petrinet net = anet.getNet();
 
-		HashMap<Transition, HashSet<Arc>> inputMap = new HashMap<Transition, HashSet<Arc>>();
-		HashMap<Transition, HashSet<Arc>> outputMap = new HashMap<Transition, HashSet<Arc>>();
 		/*
 		 * Iterate over all transitions. Build inputMap and outputMap if all
 		 * incident edges regular.
@@ -39,69 +35,44 @@ public class MurataFPTkeepLanguage {
 				return true;
 			}
 
-			/*
-			 * Get input edges. Should all be regular.
-			 */
-			HashSet<Arc> inputArcs;
-			{
-				boolean ok;
-				Collection<PetrinetEdge<? extends PetrinetNode, ? extends PetrinetNode>> preset = net
-						.getInEdges(transition);
-				inputArcs = new HashSet<Arc>();
-				ok = true;
-				for (PetrinetEdge<? extends PetrinetNode, ? extends PetrinetNode> edge : preset) {
-					if (edge instanceof Arc) {
-						inputArcs.add((Arc) edge);
-					} else {
-						ok = false;
-					}
-				}
-				if (!ok) {
-					continue;
-				}
-			}
-
-			/*
-			 * Get output edges. Should all be regular.
-			 */
-			HashSet<Arc> outputArcs;
-			{
-				Collection<PetrinetEdge<? extends PetrinetNode, ? extends PetrinetNode>> postset = net
-						.getOutEdges(transition);
-				outputArcs = new HashSet<Arc>();
-				boolean ok = true;
-				for (PetrinetEdge<? extends PetrinetNode, ? extends PetrinetNode> edge : postset) {
-					if (edge instanceof Arc) {
-						outputArcs.add((Arc) edge);
-					} else {
-						ok = false;
-					}
-				}
-				if (!ok) {
-					continue;
-				}
-			}
-
-			inputMap.put(transition, inputArcs);
-			outputMap.put(transition, outputArcs);
-		}
-
-		/*
-		 * Iterate over all transitions with only regular incident edges.
-		 */
-		for (Transition transition : inputMap.keySet()) {
-
 			if (!transition.isInvisible()) {
 				continue;
 			}
 
-			HashSet<Arc> inputArcs = inputMap.get(transition);
-			HashSet<Arc> outputArcs = outputMap.get(transition);
+			/*
+			 * Get input edges. Should all be regular.
+			 */
+			Collection<PetrinetEdge<? extends PetrinetNode, ? extends PetrinetNode>> inputArcs = net
+					.getInEdges(transition);
+			Collection<PetrinetEdge<? extends PetrinetNode, ? extends PetrinetNode>> outputArcs = net
+					.getOutEdges(transition);
+			{
+				boolean ok = true;
+				for (PetrinetEdge<? extends PetrinetNode, ? extends PetrinetNode> edge : inputArcs) {
+					if (!(edge instanceof Arc)) {
+						ok = false;
+						break;
+					}
+				}
+				if (!ok) {
+					continue;
+				}
+
+				for (PetrinetEdge<? extends PetrinetNode, ? extends PetrinetNode> edge : outputArcs) {
+					if (!(edge instanceof Arc)) {
+						ok = false;
+						break;
+					}
+				}
+				if (!ok) {
+					continue;
+				}
+			}
 
 			/*
 			 * Checking for matching transitions.
 			 */
-			for (Transition siblingTransition : inputMap.keySet()) {
+			for (Transition siblingTransition : net.getTransitions()) {
 
 				if (!siblingTransition.isInvisible()) {
 					continue;
@@ -111,8 +82,10 @@ public class MurataFPTkeepLanguage {
 					continue;
 				}
 
-				HashSet<Arc> siblingInputArcs = inputMap.get(siblingTransition);
-				HashSet<Arc> siblingOutputArcs = outputMap.get(siblingTransition);
+				Collection<PetrinetEdge<? extends PetrinetNode, ? extends PetrinetNode>> siblingInputArcs = net
+						.getInEdges(siblingTransition);
+				Collection<PetrinetEdge<? extends PetrinetNode, ? extends PetrinetNode>> siblingOutputArcs = net
+						.getOutEdges(siblingTransition);
 				if (siblingInputArcs.size() != inputArcs.size()) {
 					continue;
 				}
@@ -121,12 +94,12 @@ public class MurataFPTkeepLanguage {
 				}
 				boolean equal = true;
 				boolean found;
-				for (Arc arc : inputArcs) {
+				for (PetrinetEdge<? extends PetrinetNode, ? extends PetrinetNode> arc : inputArcs) {
 					if (equal) {
 						found = false;
-						for (Arc siblingArc : siblingInputArcs) {
+						for (PetrinetEdge<? extends PetrinetNode, ? extends PetrinetNode> siblingArc : siblingInputArcs) {
 							if ((arc.getSource() == siblingArc.getSource())
-									&& (arc.getWeight() == siblingArc.getWeight())) {
+									&& (((Arc) arc).getWeight() == ((Arc) siblingArc).getWeight())) {
 								found = true;
 							}
 						}
@@ -135,12 +108,12 @@ public class MurataFPTkeepLanguage {
 						}
 					}
 				}
-				for (Arc arc : outputArcs) {
+				for (PetrinetEdge<? extends PetrinetNode, ? extends PetrinetNode> arc : outputArcs) {
 					if (equal) {
 						found = false;
-						for (Arc siblingArc : siblingOutputArcs) {
+						for (PetrinetEdge<? extends PetrinetNode, ? extends PetrinetNode> siblingArc : siblingOutputArcs) {
 							if ((arc.getTarget() == siblingArc.getTarget())
-									&& (arc.getWeight() == siblingArc.getWeight())) {
+									&& (((Arc) arc).getWeight() == ((Arc) siblingArc).getWeight())) {
 								found = true;
 							}
 						}

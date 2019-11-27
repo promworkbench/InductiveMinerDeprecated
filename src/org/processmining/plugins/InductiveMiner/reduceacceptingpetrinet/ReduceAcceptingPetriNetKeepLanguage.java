@@ -10,13 +10,14 @@ public class ReduceAcceptingPetriNetKeepLanguage {
 		boolean reduced = false;
 		do {
 			reduced = false;
-			reduced |= MurataFSP1keepLanguage.reduce(petriNet, canceller);
+			reduced |= InterchangeablePlaces.reduce(petriNet, canceller);
 			reduced |= MurataFSP2keepLanguage.reduce(petriNet, canceller);
-			reduced |= MurataFPPkeepLanguage.reduce(petriNet, canceller);
+			reduced |= MurataFSP1keepLanguage.reduce(petriNet, canceller);
 			reduced |= MurataESTkeepLanguage.reduce(petriNet, canceller);
 			reduced |= MurataFST1keepLanguage.reduce(petriNet, canceller);
 			reduced |= MurataFST2keepLanguage.reduce(petriNet, canceller);			
 			reduced |= MurataFPTkeepLanguage.reduce(petriNet, canceller);
+			reduced |= MurataFPPkeepLanguage.reduce(petriNet, canceller);
 
 			if (canceller.isCancelled()) {
 				return;
