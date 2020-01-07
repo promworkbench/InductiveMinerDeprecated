@@ -1,13 +1,13 @@
 package org.processmining.plugins.InductiveMiner.efficienttree;
 
+import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.processmining.acceptingpetrinet.models.AcceptingPetriNet;
 import org.processmining.acceptingpetrinet.models.impl.AcceptingPetriNetFactory;
-import org.processmining.models.graphbased.directed.petrinet.Petrinet;
+import org.processmining.models.graphbased.directed.petrinet.elements.Arc;
 import org.processmining.models.graphbased.directed.petrinet.elements.Place;
 import org.processmining.models.graphbased.directed.petrinet.elements.Transition;
-import org.processmining.models.graphbased.directed.petrinet.impl.PetrinetImpl;
 import org.processmining.models.semantics.petrinet.Marking;
 
 import gnu.trove.map.TIntObjectMap;
@@ -17,14 +17,19 @@ public class EfficientTree2AcceptingPetriNet {
 
 	public static AtomicInteger placeCounter = new AtomicInteger();
 
+	private static class PN {
+		PetrinetImplExt pn = new PetrinetImplExt("converted from efficient tree");
+		ArrayList<Arc> arcs = new ArrayList<>();
+	}
+
 	public static AcceptingPetriNet convert(EfficientTree tree) {
 		return convert(tree, new TIntObjectHashMap<Transition>(10, 0.5f, -1));
 	}
 
 	public static AcceptingPetriNet convert(EfficientTree tree, TIntObjectMap<Transition> node2transition) {
-		Petrinet petriNet = new PetrinetImpl("converted from efficient tree");
-		Place source = petriNet.addPlace("net source");
-		Place sink = petriNet.addPlace("net sink");
+		PN petriNet = new PN();
+		Place source = petriNet.pn.addPlace("net source");
+		Place sink = petriNet.pn.addPlace("net sink");
 		Marking initialMarking = new Marking();
 		initialMarking.add(source);
 		Marking finalMarking = new Marking();
@@ -34,10 +39,11 @@ public class EfficientTree2AcceptingPetriNet {
 
 		convertNode(petriNet, tree, root, source, sink, node2transition);
 
-		return AcceptingPetriNetFactory.createAcceptingPetriNet(petriNet, initialMarking, finalMarking);
+		petriNet.pn.addArcsWithoutCheck(petriNet.arcs);
+		return AcceptingPetriNetFactory.createAcceptingPetriNet(petriNet.pn, initialMarking, finalMarking);
 	}
 
-	private static void convertNode(Petrinet petriNet, EfficientTree tree, int node, Place source, Place sink,
+	private static void convertNode(PN petriNet, EfficientTree tree, int node, Place source, Place sink,
 			TIntObjectMap<Transition> node2transition) {
 		if (tree.isTau(node)) {
 			convertTau(petriNet, tree, node, source, sink, node2transition);
@@ -60,31 +66,31 @@ public class EfficientTree2AcceptingPetriNet {
 		}
 	}
 
-	private static void convertTau(Petrinet petriNet, EfficientTree tree, int node, Place source, Place sink,
+	private static void convertTau(PN petriNet, EfficientTree tree, int node, Place source, Place sink,
 			TIntObjectMap<Transition> node2transition) {
-		Transition t = petriNet.addTransition("tau from tree");
+		Transition t = petriNet.pn.addTransition("tau from tree");
 		t.setInvisible(true);
-		petriNet.addArc(source, t);
-		petriNet.addArc(t, sink);
+		petriNet.arcs.add(PetrinetImplExt.createArc(source, t));
+		petriNet.arcs.add(PetrinetImplExt.createArc(t, sink));
 		node2transition.put(node, t);
 	}
 
-	private static void convertTask(Petrinet petriNet, EfficientTree tree, int node, Place source, Place sink,
+	private static void convertTask(PN petriNet, EfficientTree tree, int node, Place source, Place sink,
 			TIntObjectMap<Transition> node2transition) {
-		Transition t = petriNet.addTransition(tree.getActivityName(node));
-		petriNet.addArc(source, t);
-		petriNet.addArc(t, sink);
+		Transition t = petriNet.pn.addTransition(tree.getActivityName(node));
+		petriNet.arcs.add(PetrinetImplExt.createArc(source, t));
+		petriNet.arcs.add(PetrinetImplExt.createArc(t, sink));
 		node2transition.put(node, t);
 	}
 
-	private static void convertXor(Petrinet petriNet, EfficientTree tree, int node, Place source, Place sink,
+	private static void convertXor(PN petriNet, EfficientTree tree, int node, Place source, Place sink,
 			TIntObjectMap<Transition> node2transition) {
 		for (int child : tree.getChildren(node)) {
 			convertNode(petriNet, tree, child, source, sink, node2transition);
 		}
 	}
 
-	private static void convertSeq(Petrinet petriNet, EfficientTree tree, int node, Place source, Place sink,
+	private static void convertSeq(PN petriNet, EfficientTree tree, int node, Place source, Place sink,
 			TIntObjectMap<Transition> node2transition) {
 		int last = tree.getNumberOfChildren(node);
 		int i = 0;
@@ -94,7 +100,7 @@ public class EfficientTree2AcceptingPetriNet {
 			if (i == last - 1) {
 				childSink = sink;
 			} else {
-				childSink = petriNet.addPlace("sink " + placeCounter.incrementAndGet());
+				childSink = petriNet.pn.addPlace("sink " + placeCounter.incrementAndGet());
 			}
 
 			convertNode(petriNet, tree, child, lastSink, childSink, node2transition);
@@ -103,46 +109,46 @@ public class EfficientTree2AcceptingPetriNet {
 		}
 	}
 
-	private static void convertAnd(Petrinet petriNet, EfficientTree tree, int node, Place source, Place sink,
+	private static void convertAnd(PN petriNet, EfficientTree tree, int node, Place source, Place sink,
 			TIntObjectMap<Transition> node2transition) {
 		//add split tau
-		Transition t1 = petriNet.addTransition("tau split");
+		Transition t1 = petriNet.pn.addTransition("tau split");
 		t1.setInvisible(true);
-		petriNet.addArc(source, t1);
+		petriNet.arcs.add(PetrinetImplExt.createArc(source, t1));
 
 		//add join tau
-		Transition t2 = petriNet.addTransition("tau join");
+		Transition t2 = petriNet.pn.addTransition("tau join");
 		t2.setInvisible(true);
-		petriNet.addArc(t2, sink);
+		petriNet.arcs.add(PetrinetImplExt.createArc(t2, sink));
 
 		//add for each child a source and sink place
 		for (int child : tree.getChildren(node)) {
-			Place childSource = petriNet.addPlace("source " + placeCounter.incrementAndGet());
-			petriNet.addArc(t1, childSource);
+			Place childSource = petriNet.pn.addPlace("source " + placeCounter.incrementAndGet());
+			petriNet.arcs.add(PetrinetImplExt.createArc(t1, childSource));
 
-			Place childSink = petriNet.addPlace("sink " + placeCounter.incrementAndGet());
-			petriNet.addArc(childSink, t2);
+			Place childSink = petriNet.pn.addPlace("sink " + placeCounter.incrementAndGet());
+			petriNet.arcs.add(PetrinetImplExt.createArc(childSink, t2));
 
 			convertNode(petriNet, tree, child, childSource, childSink, node2transition);
 		}
 	}
 
-	private static void convertLoop(Petrinet petriNet, EfficientTree tree, int node, Place source, Place sink,
+	private static void convertLoop(PN petriNet, EfficientTree tree, int node, Place source, Place sink,
 			TIntObjectMap<Transition> node2transition) {
 		if (tree.getNumberOfChildren(node) != 3) {
 			//a loop must have precisely three children: body, redo and exit
 			throw new RuntimeException("A loop should have precisely three children");
 		}
 
-		Place middlePlace = petriNet.addPlace("middle " + placeCounter.incrementAndGet());
+		Place middlePlace = petriNet.pn.addPlace("middle " + placeCounter.incrementAndGet());
 
 		//add an extra tau
-		Transition t = petriNet.addTransition("tau start");
+		Transition t = petriNet.pn.addTransition("tau start");
 		t.setInvisible(true);
-		petriNet.addArc(source, t);
+		petriNet.arcs.add(PetrinetImplExt.createArc(source, t));
 		//replace the source
-		source = petriNet.addPlace("replacement source " + placeCounter.incrementAndGet());
-		petriNet.addArc(t, source);
+		source = petriNet.pn.addPlace("replacement source " + placeCounter.incrementAndGet());
+		petriNet.arcs.add(PetrinetImplExt.createArc(t, source));
 
 		//body
 		convertNode(petriNet, tree, tree.getChild(node, 0), source, middlePlace, node2transition);
@@ -152,93 +158,93 @@ public class EfficientTree2AcceptingPetriNet {
 		convertNode(petriNet, tree, tree.getChild(node, 2), middlePlace, sink, node2transition);
 	}
 
-	private static void convertOr(Petrinet petriNet, EfficientTree tree, int node, Place source, Place sink,
+	private static void convertOr(PN petriNet, EfficientTree tree, int node, Place source, Place sink,
 			TIntObjectMap<Transition> node2transition) {
 
-		Transition start = petriNet.addTransition("tau start");
+		Transition start = petriNet.pn.addTransition("tau start");
 		start.setInvisible(true);
-		petriNet.addArc(source, start);
+		petriNet.arcs.add(PetrinetImplExt.createArc(source, start));
 
-		Place notDoneFirst = petriNet.addPlace("notDoneFirst " + placeCounter.incrementAndGet());
-		petriNet.addArc(start, notDoneFirst);
+		Place notDoneFirst = petriNet.pn.addPlace("notDoneFirst " + placeCounter.incrementAndGet());
+		petriNet.arcs.add(PetrinetImplExt.createArc(start, notDoneFirst));
 
-		Place doneFirst = petriNet.addPlace("doneFirst " + placeCounter.incrementAndGet());
-		Transition end = petriNet.addTransition("tau finish");
+		Place doneFirst = petriNet.pn.addPlace("doneFirst " + placeCounter.incrementAndGet());
+		Transition end = petriNet.pn.addTransition("tau finish");
 		end.setInvisible(true);
-		petriNet.addArc(doneFirst, end);
-		petriNet.addArc(end, sink);
+		petriNet.arcs.add(PetrinetImplExt.createArc(doneFirst, end));
+		petriNet.arcs.add(PetrinetImplExt.createArc(end, sink));
 
 		for (int child : tree.getChildren(node)) {
-			Place childSource = petriNet.addPlace("childSource " + placeCounter.incrementAndGet());
-			petriNet.addArc(start, childSource);
-			Place childSink = petriNet.addPlace("childSink " + placeCounter.incrementAndGet());
-			petriNet.addArc(childSink, end);
-			Place doChild = petriNet.addPlace("doChild " + placeCounter.incrementAndGet());
+			Place childSource = petriNet.pn.addPlace("childSource " + placeCounter.incrementAndGet());
+			petriNet.arcs.add(PetrinetImplExt.createArc(start, childSource));
+			Place childSink = petriNet.pn.addPlace("childSink " + placeCounter.incrementAndGet());
+			petriNet.arcs.add(PetrinetImplExt.createArc(childSink, end));
+			Place doChild = petriNet.pn.addPlace("doChild " + placeCounter.incrementAndGet());
 
 			//skip
-			Transition skipChild = petriNet.addTransition("tau skipChild");
+			Transition skipChild = petriNet.pn.addTransition("tau skipChild");
 			skipChild.setInvisible(true);
-			petriNet.addArc(childSource, skipChild);
-			petriNet.addArc(skipChild, childSink);
-			petriNet.addArc(skipChild, doneFirst);
-			petriNet.addArc(doneFirst, skipChild);
+			petriNet.arcs.add(PetrinetImplExt.createArc(childSource, skipChild));
+			petriNet.arcs.add(PetrinetImplExt.createArc(skipChild, childSink));
+			petriNet.arcs.add(PetrinetImplExt.createArc(skipChild, doneFirst));
+			petriNet.arcs.add(PetrinetImplExt.createArc(doneFirst, skipChild));
 
 			//first do
-			Transition firstDoChild = petriNet.addTransition("tau firstDoChild");
+			Transition firstDoChild = petriNet.pn.addTransition("tau firstDoChild");
 			firstDoChild.setInvisible(true);
-			petriNet.addArc(childSource, firstDoChild);
-			petriNet.addArc(notDoneFirst, firstDoChild);
-			petriNet.addArc(firstDoChild, doneFirst);
-			petriNet.addArc(firstDoChild, doChild);
+			petriNet.arcs.add(PetrinetImplExt.createArc(childSource, firstDoChild));
+			petriNet.arcs.add(PetrinetImplExt.createArc(notDoneFirst, firstDoChild));
+			petriNet.arcs.add(PetrinetImplExt.createArc(firstDoChild, doneFirst));
+			petriNet.arcs.add(PetrinetImplExt.createArc(firstDoChild, doChild));
 
 			//later do
-			Transition laterDoChild = petriNet.addTransition("tau laterDoChild");
+			Transition laterDoChild = petriNet.pn.addTransition("tau laterDoChild");
 			laterDoChild.setInvisible(true);
-			petriNet.addArc(childSource, laterDoChild);
-			petriNet.addArc(laterDoChild, doChild);
-			petriNet.addArc(laterDoChild, doneFirst);
-			petriNet.addArc(doneFirst, laterDoChild);
+			petriNet.arcs.add(PetrinetImplExt.createArc(childSource, laterDoChild));
+			petriNet.arcs.add(PetrinetImplExt.createArc(laterDoChild, doChild));
+			petriNet.arcs.add(PetrinetImplExt.createArc(laterDoChild, doneFirst));
+			petriNet.arcs.add(PetrinetImplExt.createArc(doneFirst, laterDoChild));
 
 			convertNode(petriNet, tree, child, doChild, childSink, node2transition);
 		}
 	}
 
-	private static void convertInterleaved(Petrinet petriNet, EfficientTree tree, int node, Place source, Place sink,
+	private static void convertInterleaved(PN petriNet, EfficientTree tree, int node, Place source, Place sink,
 			TIntObjectMap<Transition> node2transition) {
-		Transition start = petriNet.addTransition("tau start");
+		Transition start = petriNet.pn.addTransition("tau start");
 		start.setInvisible(true);
-		petriNet.addArc(source, start);
+		petriNet.arcs.add(PetrinetImplExt.createArc(source, start));
 
-		Place mileStone = petriNet.addPlace("milestone place " + placeCounter.incrementAndGet());
-		petriNet.addArc(start, mileStone);
+		Place mileStone = petriNet.pn.addPlace("milestone place " + placeCounter.incrementAndGet());
+		petriNet.arcs.add(PetrinetImplExt.createArc(start, mileStone));
 
-		Transition end = petriNet.addTransition("tau end");
+		Transition end = petriNet.pn.addTransition("tau end");
 		end.setInvisible(true);
-		petriNet.addArc(mileStone, end);
-		petriNet.addArc(end, sink);
+		petriNet.arcs.add(PetrinetImplExt.createArc(mileStone, end));
+		petriNet.arcs.add(PetrinetImplExt.createArc(end, sink));
 
 		for (int child : tree.getChildren(node)) {
-			Place childTodo = petriNet.addPlace("child todo " + placeCounter.incrementAndGet());
-			petriNet.addArc(start, childTodo);
+			Place childTodo = petriNet.pn.addPlace("child todo " + placeCounter.incrementAndGet());
+			petriNet.arcs.add(PetrinetImplExt.createArc(start, childTodo));
 
-			Transition startChild = petriNet.addTransition("tau start child");
+			Transition startChild = petriNet.pn.addTransition("tau start child");
 			startChild.setInvisible(true);
-			petriNet.addArc(childTodo, startChild);
-			petriNet.addArc(mileStone, startChild);
+			petriNet.arcs.add(PetrinetImplExt.createArc(childTodo, startChild));
+			petriNet.arcs.add(PetrinetImplExt.createArc(mileStone, startChild));
 
-			Place childSource = petriNet.addPlace("child source " + placeCounter.incrementAndGet());
-			petriNet.addArc(startChild, childSource);
+			Place childSource = petriNet.pn.addPlace("child source " + placeCounter.incrementAndGet());
+			petriNet.arcs.add(PetrinetImplExt.createArc(startChild, childSource));
 
-			Place childSink = petriNet.addPlace("child sink " + placeCounter.incrementAndGet());
+			Place childSink = petriNet.pn.addPlace("child sink " + placeCounter.incrementAndGet());
 
-			Transition endChild = petriNet.addTransition("tau end child");
+			Transition endChild = petriNet.pn.addTransition("tau end child");
 			endChild.setInvisible(true);
-			petriNet.addArc(childSink, endChild);
-			petriNet.addArc(endChild, mileStone);
+			petriNet.arcs.add(PetrinetImplExt.createArc(childSink, endChild));
+			petriNet.arcs.add(PetrinetImplExt.createArc(endChild, mileStone));
 
-			Place childDone = petriNet.addPlace("child done " + placeCounter.incrementAndGet());
-			petriNet.addArc(endChild, childDone);
-			petriNet.addArc(childDone, end);
+			Place childDone = petriNet.pn.addPlace("child done " + placeCounter.incrementAndGet());
+			petriNet.arcs.add(PetrinetImplExt.createArc(endChild, childDone));
+			petriNet.arcs.add(PetrinetImplExt.createArc(childDone, end));
 
 			convertNode(petriNet, tree, child, childSource, childSink, node2transition);
 		}

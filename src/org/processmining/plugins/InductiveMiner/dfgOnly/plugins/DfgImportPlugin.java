@@ -22,7 +22,8 @@ import org.processmining.plugins.InductiveMiner.dfgOnly.DfgImpl;
 import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 
-@Plugin(name = "Import a CSV file and convert it to dfg", parameterLabels = { "Filename" }, returnLabels = { "Directly follows graph" }, returnTypes = { Dfg.class })
+@Plugin(name = "Import a CSV file and convert it to dfg", parameterLabels = { "Filename" }, returnLabels = {
+		"Directly follows graph" }, returnTypes = { Dfg.class })
 @UIImportPlugin(description = "Directly follows graph", extensions = { "dfg", "csv" })
 public class DfgImportPlugin extends AbstractImportPlugin {
 
@@ -68,7 +69,8 @@ public class DfgImportPlugin extends AbstractImportPlugin {
 
 	public static Dfg readCSV(InputStream input) throws IOException {
 		CSVReader reader = new CSVReader(new BufferedReader(new InputStreamReader(input, CHARSET), BUFFER_SIZE),
-				SEPARATOR, CSVParser.DEFAULT_QUOTE_CHARACTER, CSVParser.DEFAULT_ESCAPE_CHARACTER, 0, false, false, true);
+				SEPARATOR, CSVParser.DEFAULT_QUOTE_CHARACTER, CSVParser.DEFAULT_ESCAPE_CHARACTER, 0, false, false,
+				true);
 
 		Dfg dfg;
 		try {
