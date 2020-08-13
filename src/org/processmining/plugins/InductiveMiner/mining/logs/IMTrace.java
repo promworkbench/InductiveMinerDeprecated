@@ -2,13 +2,16 @@ package org.processmining.plugins.InductiveMiner.mining.logs;
 
 import java.util.BitSet;
 import java.util.Iterator;
+import java.util.Set;
 
 import org.deckfour.xes.classification.XEventClass;
+import org.deckfour.xes.extension.XExtension;
+import org.deckfour.xes.model.XAttributable;
 import org.deckfour.xes.model.XAttributeMap;
 import org.deckfour.xes.model.XEvent;
 import org.deckfour.xes.model.XTrace;
 
-public class IMTrace implements Iterable<XEvent> {
+public class IMTrace implements Iterable<XEvent>, XAttributable {
 
 	private final int XTraceIndex;
 	private final int IMTraceIndex;
@@ -84,7 +87,7 @@ public class IMTrace implements Iterable<XEvent> {
 	public XAttributeMap getAttributes() {
 		return getXTrace().getAttributes();
 	}
-	
+
 	public int getIMTraceIndex() {
 		return IMTraceIndex;
 	}
@@ -155,7 +158,7 @@ public class IMTrace implements Iterable<XEvent> {
 			progress();
 			return getXTrace().get(now);
 		}
-		
+
 		public XEvent get() {
 			return getXTrace().get(now);
 		}
@@ -228,7 +231,7 @@ public class IMTrace implements Iterable<XEvent> {
 			counter--;
 			return getXTrace().get(now);
 		}
-		
+
 		public boolean isAtSameEvent(IMEventIterator other) {
 			return other.now == now;
 		}
@@ -236,6 +239,18 @@ public class IMTrace implements Iterable<XEvent> {
 
 	public int getXTraceIndex() {
 		return XTraceIndex;
+	}
+
+	public Set<XExtension> getExtensions() {
+		return null;
+	}
+
+	public boolean hasAttributes() {
+		return true;
+	}
+
+	public void setAttributes(XAttributeMap arg0) {
+		throw new RuntimeException("not possible");
 	}
 
 }
