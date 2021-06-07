@@ -74,6 +74,10 @@ public class BaseCaseFinderIM implements BaseCaseFinder {
 			//filter empty traces
 			IMLog sublog = BaseCaseFinderIMiEmptyTrace.removeEpsilonTraces(log, minerState);
 
+			if (minerState.isCancelled()) {
+				return null;
+			}
+
 			//recurse
 			Node child = Miner.mineNode(sublog, tree, minerState);
 			newNode.addChild(child);

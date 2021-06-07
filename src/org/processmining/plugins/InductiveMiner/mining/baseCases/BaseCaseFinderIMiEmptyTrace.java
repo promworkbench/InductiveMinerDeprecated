@@ -19,13 +19,19 @@ public class BaseCaseFinderIMiEmptyTrace implements BaseCaseFinder {
 		if (logInfo.getDfg().getNumberOfEmptyTraces() != 0) {
 			//the log contains empty traces
 
-			if (logInfo.getDfg().getNumberOfEmptyTraces() < logInfo.getNumberOfTraces() * minerState.parameters.getNoiseThreshold()) {
+			if (logInfo.getDfg().getNumberOfEmptyTraces() < logInfo.getNumberOfTraces()
+					* minerState.parameters.getNoiseThreshold()) {
 				//there are not enough empty traces, the empty traces are considered noise
 
 				Miner.debug(" base case: IMi empty traces filtered out", minerState);
 
 				//filter the empty traces from the log and recurse
-				Node newNode = Miner.mineNode(removeEpsilonTraces(log, minerState), tree, minerState);
+				IMLog subLog = removeEpsilonTraces(log, minerState);
+				if (minerState.isCancelled()) {
+					return null;
+				}
+
+				Node newNode = Miner.mineNode(subLog, tree, minerState);
 
 				return newNode;
 
