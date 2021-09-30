@@ -112,6 +112,13 @@ public class FlowerMiner {
 			activity2int.put(id.getId(), i);
 		}
 
+		if (int2activity.length == 0) {
+			int[] tree = new int[1];
+			tree[0] = NodeType.tau.code;
+			
+			return EfficientTreeFactory.create(tree, activity2int, int2activity);
+		}
+
 		//construct the tree
 		int[] tree = new int[int2activity.length + 4];
 		tree[0] = NodeType.loop.code - 3 * EfficientTreeImpl.childrenFactor;
