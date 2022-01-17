@@ -178,7 +178,7 @@ public class MultiComboBox<E> extends JComboBox<Object> {
 	protected JList<E> getList() {
 		Accessible a = getAccessibleContext().getAccessibleChild(0);
 		if (a instanceof BasicComboPopup) {
-			return ((BasicComboPopup) a).getList();
+			return (JList<E>) ((BasicComboPopup) a).getList();
 		} else {
 			return null;
 		}
