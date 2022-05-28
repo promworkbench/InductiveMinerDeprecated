@@ -50,8 +50,8 @@ public class IMMiningDialog extends JPanel {
 	private final JLabel doiLabel;
 	private final JLabel doiValue;
 
-	public static final String email = "s.leemans@qut.edu.au";
-	public static final String affiliation = "Queensland University of Technology";
+	public static final String email = "s.leemans@bpm.rwth-aachen.de";
+	public static final String affiliation = "RWTH Aachen";
 	public static final String author = "S.J.J. Leemans";
 
 	public class ParametersWrapper {
