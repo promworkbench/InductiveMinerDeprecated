@@ -1,6 +1,6 @@
 
 					<packages>
-						<package name="InductiveMinerDeprecated" version="6.14.8" os="all" url="InductiveMinerDeprecated/InductiveMinerDeprecated-6.14.8-all.zip" desc="${description}" org="${organization}" license="${license}" author="${author}" auto="false" hasPlugins="true" logo="${logo}">
+						<package name="InductiveMinerDeprecated" version="6.14.9" os="all" url="InductiveMinerDeprecated/InductiveMinerDeprecated-6.14.9-all.zip" desc="${description}" org="${organization}" license="${license}" author="${author}" auto="false" hasPlugins="true" logo="${logo}">
 				    	<dependency org="prom" name="ProM-Plugins" rev="latest" changing="true" transitive="true" />	
     	<dependency org="prom" name="ProcessTree" rev="latest" changing="true" transitive="true" />	
     	<dependency org="prom" name="Properties" rev="latest" changing="true" transitive="true" />
@@ -10,8 +10,6 @@
         <dependency org="prom" name="GraphViz" rev="latest" changing="true" transitive="true" />
         <dependency org="prom" name="AcceptingPetriNet" rev="latest" changing="true" transitive="true" />
         <dependency org="prom" name="Murata" rev="latest" changing="true" transitive="true" />
-        <dependency org="prom" name="Log" rev="latest" changing="true" transitive="true" />
-        <dependency org="prom" name="BasicUtils" rev="latest" changing="true" transitive="true" />
 
 						</package>
 					</packages>
