@@ -1,6 +1,6 @@
 
 					<packages>
-						<package name="InductiveMinerDeprecated" version="6.14.10" os="all" url="InductiveMinerDeprecated/InductiveMinerDeprecated-6.14.10-all.zip" desc="Discovers process models from event logs recursively, deprecated" org="Queensland University of Technology" license="L-GPL" author="SJJ Leemans" auto="false" hasPlugins="true" logo="http://leemans.ch/figures/logoInductiveMiner.png">
+						<package name="InductiveMinerDeprecated" version="6.14.11" os="all" url="InductiveMinerDeprecated/InductiveMinerDeprecated-6.14.11-all.zip" desc="Discovers process models from event logs recursively, deprecated" org="Queensland University of Technology" license="L-GPL" author="SJJ Leemans" auto="false" hasPlugins="true" logo="http://leemans.ch/figures/logoInductiveMiner.png">
 				    	<dependency org="prom" name="ProM-Plugins" rev="latest" changing="true" transitive="true" />	
     	<dependency org="prom" name="ProcessTree" rev="latest" changing="true" transitive="true" />	
     	<dependency org="prom" name="Properties" rev="latest" changing="true" transitive="true" />
