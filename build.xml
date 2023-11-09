@@ -10,9 +10,17 @@
 	<property name="version" value="${env.major_minor}.${env.GITHUB_RUN_NUMBER}" />
 	<property name="project" value="InductiveMinerDeprecated" />
 
+	<property name="author" value="SJJ Leemans" />
+	<property name="organization" value="Queensland University of Technology" />
+	<property name="description" value="Discovers process models from event logs recursively, deprecated" />
+	<property name="license" value="L-GPL" />
+	<property name="logo" value="http://leemans.ch/figures/logoInductiveMiner.png" />
+
+	<property name="ivy.lib.dir" value="ivy" />
+	<!--property name="ivy.cache.dir" value="/var/lib/hudson/.ivy2/cache/${env.EXECUTOR_NUMBER}" /-->
+
 	<!-- Set the os to win32, win64, lin32, lin64, mac, or all -->
 	<property name="os" value="all" />
-
 
 	<property name="ivy.install.version" value="2.1.0-rc2" />
 	<condition property="ivy.home" value="${env.IVY_HOME}">
@@ -112,7 +120,7 @@
 	</target>
 	
 	<target name="resolve" depends="init-ivy" >
-		<ivy:retrieve pattern="ivy/[artifact]-[revision].[ext]" type="jar,bundle" sync="true" />
+		<ivy:retrieve type="jar,bundle" sync="true" />
 		<ivy:retrieve pattern="lib/[artifact]-[revision].[ext]" conf="lib" type="jar,bundle" sync="true" />
 	</target>
 
